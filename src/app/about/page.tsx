@@ -3,8 +3,9 @@
 import { useEffect, useState } from 'react';
 import {
     Container, Typography, Grid, Chip, Stack, useTheme,
-    Avatar, Box, Paper, darken, Button,
+    Avatar, Box, Paper, darken, Button, Collapse, IconButton, Tooltip
 } from '@mui/material';
+import AutoAwesomeIcon from '@mui/icons-material/AutoAwesome';
 import AnimatedSection from '@/components/ui/AnimatedSection';
 import { getSkillColor } from '@/lib/brandColors';
 import GitHubActivityChart from '@/components/dashboard/GitHubActivityChart'; // Import Chart
@@ -48,6 +49,9 @@ export default function AboutPage() {
     const theme = useTheme();
     const [profile, setProfile] = useState<ProfileData | null>(null);
     const [analytics, setAnalytics] = useState<AnalyticsData>(getDemoAnalytics()); // Init with demo data
+    const [showAiSummary, setShowAiSummary] = useState(false);
+
+    const aiSummaryText = "AI Insight: Charan combines strong foundational data analytics skills (SQL, Power BI, Python) with an aggressive trajectory into FAANG-level Machine Learning. His profile demonstrates a clear pattern of continuous learning and an ability to translate complex technical concepts into measurable business value, making him an ideal candidate for roles bridging pure analytics and early-stage data science.";
 
     useEffect(() => {
         // Fetch Profile Data
@@ -115,9 +119,25 @@ export default function AboutPage() {
                                 }}
                             />
                             <Box>
-                                <Typography variant="h4" fontWeight={800}>
-                                    {name}
-                                </Typography>
+                                <Stack direction="row" alignItems="center" gap={1}>
+                                    <Typography variant="h4" fontWeight={800}>
+                                        {name}
+                                    </Typography>
+                                    <Tooltip title="AI Profile Analysis">
+                                        <IconButton
+                                            onClick={() => setShowAiSummary(!showAiSummary)}
+                                            size="small"
+                                            sx={{
+                                                bgcolor: showAiSummary ? '#00838f' : 'transparent',
+                                                color: showAiSummary ? 'white' : '#00838f',
+                                                border: '1px solid #00838f',
+                                                '&:hover': { bgcolor: '#00838f', color: 'white' }
+                                            }}
+                                        >
+                                            <AutoAwesomeIcon fontSize="small" />
+                                        </IconButton>
+                                    </Tooltip>
+                                </Stack>
                                 <Typography variant="h6" color="text.secondary" fontWeight={400}>
                                     Aspiring Data Scientist &amp; Analyst
                                 </Typography>
@@ -171,6 +191,23 @@ export default function AboutPage() {
                             My journey is driven by curiosity and a commitment to continuous learning—whether it&apos;s mastering a new algorithm,
                             optimizing a data pipeline, or visualizing trends that drive decisions.
                         </Typography>
+
+                        <Collapse in={showAiSummary}>
+                            <Paper
+                                elevation={0}
+                                sx={{
+                                    p: 2,
+                                    mt: 3,
+                                    bgcolor: theme.palette.mode === 'dark' ? 'rgba(0, 131, 143, 0.1)' : '#e0f7fa',
+                                    borderLeft: '4px solid #00838f',
+                                    borderRadius: 1
+                                }}
+                            >
+                                <Typography variant="body2" sx={{ color: theme.palette.mode === 'dark' ? '#b2ebf2' : '#006064', fontStyle: 'italic', fontWeight: 500, lineHeight: 1.6 }}>
+                                    ✨ {aiSummaryText}
+                                </Typography>
+                            </Paper>
+                        </Collapse>
                     </Paper>
 
                     {/* What I Do */}

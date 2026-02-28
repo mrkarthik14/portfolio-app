@@ -78,9 +78,10 @@ export default function ProjectCard({ project }: ProjectCardProps) {
                                         setShowAi(!showAi);
                                     }}
                                     sx={{
-                                        color: showAi ? accentColor : 'text.secondary',
-                                        bgcolor: showAi ? `${accentColor}1A` : 'transparent',
-                                        '&:hover': { bgcolor: `${accentColor}25` }
+                                        color: showAi ? 'white' : '#00838f',
+                                        bgcolor: showAi ? '#00838f' : 'transparent',
+                                        border: '1px solid #00838f',
+                                        '&:hover': { bgcolor: '#00838f', color: 'white' }
                                     }}
                                 >
                                     <AutoAwesomeIcon fontSize="small" />
@@ -124,17 +125,17 @@ export default function ProjectCard({ project }: ProjectCardProps) {
                                 sx={{
                                     p: 2,
                                     borderRadius: 2,
-                                    bgcolor: theme.palette.mode === 'dark' ? 'rgba(255,255,255,0.03)' : 'rgba(0,0,0,0.02)',
+                                    bgcolor: theme.palette.mode === 'dark' ? 'rgba(0, 131, 143, 0.1)' : '#e0f7fa',
                                     border: `1px solid ${theme.palette.divider}`,
-                                    borderLeft: `3px solid ${accentColor}`,
+                                    borderLeft: `4px solid #00838f`,
                                     cursor: 'default'
                                 }}
                             >
                                 <Stack gap={1.5}>
                                     <Stack direction="row" alignItems="center" gap={1} mb={0.5}>
-                                        <AutoAwesomeIcon sx={{ fontSize: 16, color: accentColor }} />
-                                        <Typography variant="subtitle2" fontWeight={700} color={accentColor}>
-                                            AI Project Brief format
+                                        <AutoAwesomeIcon sx={{ fontSize: 16, color: theme.palette.mode === 'dark' ? '#b2ebf2' : '#00838f' }} />
+                                        <Typography variant="subtitle2" fontWeight={700} sx={{ color: theme.palette.mode === 'dark' ? '#b2ebf2' : '#00838f' }}>
+                                            AI Project Brief (STAR)
                                         </Typography>
                                     </Stack>
 

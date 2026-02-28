@@ -1,7 +1,9 @@
 'use client';
 
+import { useState } from 'react';
 import Link from 'next/link';
-import { Container, Typography, Grid, Stack, Box, Chip, useTheme, Paper, darken } from '@mui/material';
+import { Container, Typography, Grid, Stack, Box, Chip, useTheme, Paper, darken, Collapse, Tooltip, IconButton } from '@mui/material';
+import AutoAwesomeIcon from '@mui/icons-material/AutoAwesome';
 import RocketLaunchIcon from '@mui/icons-material/RocketLaunch';
 import PsychologyIcon from '@mui/icons-material/Psychology';
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
@@ -36,17 +38,53 @@ const learningProjects = [
 
 export default function BlogPage() {
     const theme = useTheme();
+    const [showAiSummary, setShowAiSummary] = useState(false);
+
+    const aiSummaryText = "AI Insight: The Learning Journey section highlights a highly structured, self-directed approach to mastering Machine Learning. By implementing complex algorithms from scratch (TensorTonic) and following a FAANG-level syllabus, Charan demonstrates the rigorous mathematical discipline required for senior Data Science and ML Engineering roles.";
 
     return (
         <Container maxWidth="lg" sx={{ py: 6 }}>
             <AnimatedSection>
-                <Typography variant="h3" fontWeight={800} gutterBottom>
-                    Learning Journey
-                </Typography>
-                <Typography variant="h6" color="text.secondary" sx={{ mb: 5, maxWidth: 700 }}>
+                <Stack direction="row" alignItems="center" gap={2} mb={1}>
+                    <Typography variant="h3" fontWeight={800}>
+                        Learning Journey
+                    </Typography>
+                    <Tooltip title="AI Journey Analysis">
+                        <IconButton
+                            onClick={() => setShowAiSummary(!showAiSummary)}
+                            sx={{
+                                bgcolor: showAiSummary ? '#00838f' : 'transparent',
+                                color: showAiSummary ? 'white' : '#00838f',
+                                border: '1px solid #00838f',
+                                '&:hover': { bgcolor: '#00838f', color: 'white' }
+                            }}
+                        >
+                            <AutoAwesomeIcon />
+                        </IconButton>
+                    </Tooltip>
+                </Stack>
+                <Typography variant="h6" color="text.secondary" sx={{ mb: 3, maxWidth: 700 }}>
                     Deep dives into my active GitHub learning projects — roadmaps, solved problems,
                     and progress visualization.
                 </Typography>
+
+                <Collapse in={showAiSummary}>
+                    <Paper
+                        elevation={0}
+                        sx={{
+                            p: 2,
+                            mb: 4,
+                            maxWidth: 700,
+                            bgcolor: theme.palette.mode === 'dark' ? 'rgba(0, 131, 143, 0.1)' : '#e0f7fa',
+                            borderLeft: '4px solid #00838f',
+                            borderRadius: 1
+                        }}
+                    >
+                        <Typography variant="body2" sx={{ color: theme.palette.mode === 'dark' ? '#b2ebf2' : '#006064', fontStyle: 'italic', fontWeight: 500, lineHeight: 1.6 }}>
+                            ✨ {aiSummaryText}
+                        </Typography>
+                    </Paper>
+                </Collapse>
             </AnimatedSection>
 
             <Grid container spacing={4}>

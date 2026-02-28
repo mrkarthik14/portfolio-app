@@ -1,9 +1,11 @@
 'use client';
 
+import { useState } from 'react';
 import {
     Container, Typography, Stack, Box, useTheme,
-    Chip, Paper, Divider, darken,
+    Chip, Paper, Divider, darken, Collapse, Tooltip, IconButton
 } from '@mui/material';
+import AutoAwesomeIcon from '@mui/icons-material/AutoAwesome';
 import SchoolIcon from '@mui/icons-material/School';
 import WorkspacePremiumIcon from '@mui/icons-material/WorkspacePremium';
 import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
@@ -71,6 +73,9 @@ const getTagColor = (text: string) => {
 
 export default function EducationPage() {
     const theme = useTheme();
+    const [showAiSummary, setShowAiSummary] = useState(false);
+
+    const aiSummaryText = "AI Insight: Charan is actively transitioning academic theory into practical application. While his B.Sc. provided a strong foundation in statistics and SQL, his ongoing M.Sc. in Computer Science demonstrates a commitment to mastering complex systems like Autonomous AI Agents and FAANG-level algorithmic problem solving.";
 
     // Helper to render highlights as tags, splitting coursework if needed
     const renderHighlights = (highlights: string[]) => {
@@ -159,13 +164,46 @@ export default function EducationPage() {
         <Container maxWidth="lg" sx={{ py: 6 }}>
             {/* Header */}
             <AnimatedSection>
-                <Typography variant="h3" fontWeight={800} gutterBottom>
-                    🎓 Education
-                </Typography>
-                <Typography variant="h6" color="text.secondary" sx={{ mb: 5, maxWidth: 700 }}>
+                <Stack direction="row" alignItems="center" gap={2} mb={1}>
+                    <Typography variant="h3" fontWeight={800}>
+                        🎓 Education
+                    </Typography>
+                    <Tooltip title="AI Education Analysis">
+                        <IconButton
+                            onClick={() => setShowAiSummary(!showAiSummary)}
+                            sx={{
+                                bgcolor: showAiSummary ? '#00838f' : 'transparent',
+                                color: showAiSummary ? 'white' : '#00838f',
+                                border: '1px solid #00838f',
+                                '&:hover': { bgcolor: '#00838f', color: 'white' }
+                            }}
+                        >
+                            <AutoAwesomeIcon />
+                        </IconButton>
+                    </Tooltip>
+                </Stack>
+                <Typography variant="h6" color="text.secondary" sx={{ mb: 3, maxWidth: 700 }}>
                     My academic journey and professional certifications in Computer Science,
                     Data Science, and Machine Learning.
                 </Typography>
+
+                <Collapse in={showAiSummary}>
+                    <Paper
+                        elevation={0}
+                        sx={{
+                            p: 2,
+                            mb: 4,
+                            maxWidth: 700,
+                            bgcolor: theme.palette.mode === 'dark' ? 'rgba(0, 131, 143, 0.1)' : '#e0f7fa',
+                            borderLeft: '4px solid #00838f',
+                            borderRadius: 1
+                        }}
+                    >
+                        <Typography variant="body2" sx={{ color: theme.palette.mode === 'dark' ? '#b2ebf2' : '#006064', fontStyle: 'italic', fontWeight: 500, lineHeight: 1.6 }}>
+                            ✨ {aiSummaryText}
+                        </Typography>
+                    </Paper>
+                </Collapse>
             </AnimatedSection>
 
             {/* Education Timeline */}

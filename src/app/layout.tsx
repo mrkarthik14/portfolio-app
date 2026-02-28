@@ -3,6 +3,7 @@ import type { Metadata } from 'next';
 import ThemeProvider from '@/theme/ThemeProvider';
 import Navbar from '@/components/layout/Navbar';
 import Footer from '@/components/layout/Footer';
+import FloatingChatAgent from '@/components/ui/FloatingChatAgent';
 import { Box } from '@mui/material';
 
 export const metadata: Metadata = {
@@ -42,6 +43,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
               {children}
             </Box>
             <Footer />
+            <FloatingChatAgent />
           </Box>
         </ThemeProvider>
       </body>
