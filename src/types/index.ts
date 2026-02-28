@@ -23,6 +23,13 @@ export interface ProjectData {
     forks: number;
     language: string | null;
     topics: string[];
+    isFavorite?: boolean;
+    aiAnalysis?: {
+        situation: string;
+        task: string;
+        action: string;
+        result: string;
+    };
     skills?: string[];
     createdAt: string;
     updatedAt: string;

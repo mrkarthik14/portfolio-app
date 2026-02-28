@@ -68,10 +68,11 @@ export default function ProjectsPage() {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
     const [search, setSearch] = useState('');
-    const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
+    const [selectedCategory, setSelectedCategory] = useState<string | null>('favorites');
 
     // Skill-based category filters for the chips
     const FILTER_CATEGORIES: { key: string; label: string }[] = [
+        { key: 'favorites', label: 'Favorites ⭐️' },
         { key: 'python', label: 'Python' },
         { key: 'powerbi', label: 'Power BI' },
         { key: 'ml', label: 'ML / AI' },
@@ -101,7 +102,16 @@ export default function ProjectsPage() {
             !search ||
             project.name.toLowerCase().includes(search.toLowerCase()) ||
             project.description?.toLowerCase().includes(search.toLowerCase());
-        const matchesCategory = !selectedCategory || getProjectCategory(project) === selectedCategory;
+
+        let matchesCategory = true;
+        if (selectedCategory) {
+            if (selectedCategory === 'favorites') {
+                matchesCategory = !!project.isFavorite;
+            } else {
+                matchesCategory = getProjectCategory(project) === selectedCategory;
+            }
+        }
+
         return matchesSearch && matchesCategory;
     }));
 

@@ -8,14 +8,19 @@ import {
     useTheme,
     Paper,
     darken,
+    Collapse,
+    IconButton,
+    Tooltip,
 } from '@mui/material';
 import StarIcon from '@mui/icons-material/Star';
 import ForkRightIcon from '@mui/icons-material/ForkRight';
 import LaunchIcon from '@mui/icons-material/Launch';
 import GitHubIcon from '@mui/icons-material/GitHub';
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
+import AutoAwesomeIcon from '@mui/icons-material/AutoAwesome';
 import { ProjectData } from '@/types';
 import { brandColors, getSkillColor } from '@/lib/brandColors';
+import { useState } from 'react';
 
 interface ProjectCardProps {
     project: ProjectData;
@@ -23,6 +28,7 @@ interface ProjectCardProps {
 
 export default function ProjectCard({ project }: ProjectCardProps) {
     const theme = useTheme();
+    const [showAi, setShowAi] = useState(false);
     // Determine main brand color for the card accent
     const mainTech = project.language || project.skills?.[0] || 'Default';
     const brand = brandColors[mainTech] || brandColors[project.language || ''];
@@ -34,6 +40,11 @@ export default function ProjectCard({ project }: ProjectCardProps) {
             href={project.url}
             target="_blank"
             elevation={0}
+            onClick={(e) => {
+                // If it's a link click, let it pass, otherwise perhaps nothing or toggle AI
+                // The parent is an 'a' tag, so clicking anywhere navigates.
+                // We must prevent bubbling on interactive elements inside.
+            }}
             sx={{
                 display: 'block',
                 p: 4,
@@ -56,7 +67,26 @@ export default function ProjectCard({ project }: ProjectCardProps) {
                     <Typography variant="h5" fontWeight={800} color="text.primary" sx={{ flex: 1, mr: 1 }}>
                         {project.name}
                     </Typography>
-                    <Stack direction="row" gap={0.5} alignItems="center">
+                    <Stack direction="row" gap={1} alignItems="center">
+                        {project.aiAnalysis && (
+                            <Tooltip title="AI Project Analysis (STAR)">
+                                <IconButton
+                                    size="small"
+                                    onClick={(e) => {
+                                        e.preventDefault();
+                                        e.stopPropagation();
+                                        setShowAi(!showAi);
+                                    }}
+                                    sx={{
+                                        color: showAi ? accentColor : 'text.secondary',
+                                        bgcolor: showAi ? `${accentColor}1A` : 'transparent',
+                                        '&:hover': { bgcolor: `${accentColor}25` }
+                                    }}
+                                >
+                                    <AutoAwesomeIcon fontSize="small" />
+                                </IconButton>
+                            </Tooltip>
+                        )}
                         <GitHubIcon sx={{ fontSize: 20, color: 'text.secondary' }} />
                         <ArrowForwardIcon sx={{ fontSize: 18, color: accentColor }} />
                     </Stack>
@@ -79,10 +109,72 @@ export default function ProjectCard({ project }: ProjectCardProps) {
                     </Stack>
                 )}
 
-                {/* Description */}
-                <Typography variant="body2" color="text.secondary" sx={{ flexGrow: 1 }}>
-                    {project.description || 'No description available'}
-                </Typography>
+                {/* Description and AI Analysis */}
+                <Box sx={{ flexGrow: 1 }}>
+                    <Collapse in={!showAi}>
+                        <Typography variant="body2" color="text.secondary">
+                            {project.description || 'No description available'}
+                        </Typography>
+                    </Collapse>
+
+                    {project.aiAnalysis && (
+                        <Collapse in={showAi}>
+                            <Box
+                                onClick={(e) => { e.preventDefault(); e.stopPropagation(); }}
+                                sx={{
+                                    p: 2,
+                                    borderRadius: 2,
+                                    bgcolor: theme.palette.mode === 'dark' ? 'rgba(255,255,255,0.03)' : 'rgba(0,0,0,0.02)',
+                                    border: `1px solid ${theme.palette.divider}`,
+                                    borderLeft: `3px solid ${accentColor}`,
+                                    cursor: 'default'
+                                }}
+                            >
+                                <Stack gap={1.5}>
+                                    <Stack direction="row" alignItems="center" gap={1} mb={0.5}>
+                                        <AutoAwesomeIcon sx={{ fontSize: 16, color: accentColor }} />
+                                        <Typography variant="subtitle2" fontWeight={700} color={accentColor}>
+                                            AI Project Brief format
+                                        </Typography>
+                                    </Stack>
+
+                                    <Box>
+                                        <Typography variant="caption" fontWeight={700} color="text.primary" display="block">
+                                            SITUATION
+                                        </Typography>
+                                        <Typography variant="body2" color="text.secondary">
+                                            {project.aiAnalysis.situation}
+                                        </Typography>
+                                    </Box>
+                                    <Box>
+                                        <Typography variant="caption" fontWeight={700} color="text.primary" display="block">
+                                            TASK
+                                        </Typography>
+                                        <Typography variant="body2" color="text.secondary">
+                                            {project.aiAnalysis.task}
+                                        </Typography>
+                                    </Box>
+                                    <Box>
+                                        <Typography variant="caption" fontWeight={700} color="text.primary" display="block">
+                                            ACTION
+                                        </Typography>
+                                        <Typography variant="body2" color="text.secondary">
+                                            {project.aiAnalysis.action}
+                                        </Typography>
+                                    </Box>
+                                    <Box>
+                                        <Typography variant="caption" fontWeight={700} color="text.primary" display="block">
+                                            RESULT
+                                        </Typography>
+                                        <Typography variant="body2" color="text.secondary">
+                                            {project.aiAnalysis.result}
+                                        </Typography>
+                                    </Box>
+                                </Stack>
+                            </Box>
+                        </Collapse>
+                    )}
+                </Box>
 
                 {/* Skills (Brand Colored) + Topics (Outlined) */}
                 <Stack direction="row" gap={0.5} flexWrap="wrap">

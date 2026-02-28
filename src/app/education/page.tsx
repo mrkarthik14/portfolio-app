@@ -275,42 +275,40 @@ export default function EducationPage() {
                     }
 
                     return (
-                        <AnimatedSection key={cert.name} delay={0.25 + i * 0.05} style={{ flexGrow: 1, minWidth: 300, maxWidth: '48%' }}>
-                            <Paper
-                                elevation={0}
-                                sx={{
-                                    p: 2,
-                                    borderRadius: 3,
-                                    border: `1px solid ${theme.palette.divider}`,
-                                    display: 'flex',
-                                    alignItems: 'center',
-                                    gap: 2,
-                                    height: '100%',
-                                    transition: 'all 0.3s',
-                                    '&:hover': {
-                                        transform: 'translateY(-4px)',
-                                        borderColor: bg,
-                                        bgcolor: `${bg}08`,
-                                        boxShadow: 'none' // Removed glow from Cert cards too for consistency? Or kept default? 
-                                        // User said "in education skills section", usually refers to the chips above. 
-                                        // But minimizing glow generally fits the request. I'll keep the card shadow minimal/none or just elevation.
-                                        // The Previous request said "turn off skills glowing shadow effect". 
-                                        // I'll leave the Card hover effect alone as it's not strictly a "skill chip".
-                                    },
-                                }}
-                            >
-                                <WorkspacePremiumIcon sx={{ color: bg, fontSize: 28 }} />
-                                <Box sx={{ flex: 1 }}>
-                                    <Typography fontWeight={700} variant="subtitle1">
-                                        {cert.name}
-                                    </Typography>
-                                    <Typography variant="body2" color="text.secondary">
-                                        {cert.issuer}
-                                    </Typography>
-                                </Box>
-                                <Chip label={cert.year} size="small" variant="outlined" />
-                            </Paper>
-                        </AnimatedSection>
+                        <Box key={cert.name} sx={{ flexGrow: 1, minWidth: 300, maxWidth: { xs: '100%', md: '48%' } }}>
+                            <AnimatedSection delay={0.25 + i * 0.05}>
+                                <Paper
+                                    elevation={0}
+                                    sx={{
+                                        p: 2,
+                                        borderRadius: 3,
+                                        border: `1px solid ${theme.palette.divider}`,
+                                        display: 'flex',
+                                        alignItems: 'center',
+                                        gap: 2,
+                                        height: '100%',
+                                        transition: 'all 0.3s',
+                                        '&:hover': {
+                                            transform: 'translateY(-4px)',
+                                            borderColor: bg,
+                                            bgcolor: `${bg}08`,
+                                            boxShadow: 'none'
+                                        },
+                                    }}
+                                >
+                                    <WorkspacePremiumIcon sx={{ color: bg, fontSize: 28 }} />
+                                    <Box sx={{ flex: 1 }}>
+                                        <Typography fontWeight={700} variant="subtitle1">
+                                            {cert.name}
+                                        </Typography>
+                                        <Typography variant="body2" color="text.secondary">
+                                            {cert.issuer}
+                                        </Typography>
+                                    </Box>
+                                    <Chip label={cert.year} size="small" variant="outlined" />
+                                </Paper>
+                            </AnimatedSection>
+                        </Box>
                     );
                 })}
             </Box>

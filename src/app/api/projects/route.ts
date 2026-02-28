@@ -21,6 +21,8 @@ export async function GET() {
                 description: enriched?.description || p.description || 'No description available',
                 topics: allTopics,
                 skills: skills,
+                isFavorite: enriched?.isFavorite || false,
+                aiAnalysis: enriched?.aiAnalysis,
                 createdAt: p.createdAt.toISOString(),
                 updatedAt: p.updatedAt.toISOString(),
                 syncedAt: p.syncedAt.toISOString(),

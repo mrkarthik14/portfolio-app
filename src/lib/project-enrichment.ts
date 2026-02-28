@@ -1,18 +1,49 @@
 // Custom descriptions and skills for GitHub repos that lack them or need enrichment
 // This is used by the sync API to enrich project data
 
-export const projectEnrichment: Record<string, { description?: string; skills: string[] }> = {
+export const projectEnrichment: Record<string, {
+    description?: string;
+    skills: string[];
+    isFavorite?: boolean;
+    aiAnalysis?: {
+        situation: string;
+        task: string;
+        action: string;
+        result: string;
+    };
+}> = {
     'marketplace-insights-dashboard': {
         description: 'Interactive Streamlit dashboard analyzing e-commerce marketplace data with 5 actionable business insights, seller performance metrics, and revenue trends.',
         skills: ['Python', 'Streamlit', 'Pandas', 'Plotly', 'Data Analytics'],
+        isFavorite: true,
+        aiAnalysis: {
+            situation: "E-commerce sellers lacked visibility into key performance metrics, making it difficult to identify revenue leaks or understand customer buying patterns.",
+            task: "Develop an interactive dashboard to consolidate marketplace data and provide actionable business insights for sellers.",
+            action: "Built a Python-based Streamlit application integrating Pandas for data processing and Plotly for dynamic visualizations. Engineered 5 specific insight modules covering revenue trends and seller performance.",
+            result: "Delivered a centralized analytical tool that enabled sellers to track performance metrics in real-time, facilitating data-driven decisions that could optimize revenue."
+        }
     },
     'telco-churn-prediction': {
         description: 'End-to-end ML pipeline for predicting telecom customer churn with 92% accuracy. Includes feature engineering, SMOTE for class imbalance, and a Streamlit inference dashboard.',
         skills: ['Python', 'Scikit-learn', 'Streamlit', 'SMOTE', 'Machine Learning'],
+        isFavorite: true,
+        aiAnalysis: {
+            situation: "A telecom company was experiencing high customer churn without a reliable method to identify at-risk customers proactively.",
+            task: "Create a prognostic machine learning model to accurately identify potential churners, specifically addressing the highly imbalanced nature of churn data.",
+            action: "Developed an end-to-end ML pipeline using Scikit-Learn. Employed SMOTE to handle class imbalance, performed extensive feature engineering, and deployed the trained model via a Streamlit inference dashboard.",
+            result: "Achieved a 92% prediction accuracy, providing a deployable tool that allows the business to intervene before customers leave."
+        }
     },
     'customer-churn-prediction': {
         description: 'Customer retention intelligence system that predicts churn using behavioral analytics and recommends personalized retention strategies.',
         skills: ['Python', 'Machine Learning', 'Pandas', 'Data Analytics', 'Predictive Modeling'],
+        isFavorite: true,
+        aiAnalysis: {
+            situation: "Customer retention efforts were reactive and inefficient due to a lack of understanding regarding behavioral indicators of churn.",
+            task: "Design an intelligence system that not only predicts churn but also translates behavioral analytics into actionable retention strategies.",
+            action: "Constructed predictive models in Python using Pandas for behavioral data processing. Integrated logic to map risk profiles to personalized retention recommendations.",
+            result: "Created a proactive retention intelligence prototype capable of shifting the business strategy from reactive win-backs to preventative engagement."
+        }
     },
     'Credit-Card-Fraud-Risk-Analysis': {
         description: 'Fraud detection system tackling extreme class imbalance (<1% fraud). Uses ensemble methods, anomaly detection, and threshold tuning for real-time prediction.',
@@ -21,6 +52,13 @@ export const projectEnrichment: Record<string, { description?: string; skills: s
     'ICC-T20-World-Cup-2022-Player-Performance-Analytics-Dashboard': {
         description: 'Power BI dashboard analyzing ICC T20 World Cup 2022 player performance — batting strike rates, bowling economy, and fielding impact scores.',
         skills: ['Power BI', 'Data Visualization', 'DAX', 'Sports Analytics', 'Data Modeling'],
+        isFavorite: true,
+        aiAnalysis: {
+            situation: "Cricket analysts needed a comprehensive, visual way to evaluate player performance across multiple dimensions (batting, bowling, fielding) for the T20 World Cup 2022.",
+            task: "Build a robust Power BI dashboard to aggregate tournament data and calculate advanced impact metrics.",
+            action: "Modeled complex sports data and utilized DAX to formulate performance indicators like strike rates and economy. Designed intuitive visualizations for comparative analysis.",
+            result: "Produced a professional-grade sports analytics dashboard that allows users to seamlessly identify top performers and evaluate strategic impact."
+        }
     },
     'TensorTonic-Solutions': {
         description: '8 core ML algorithms implemented from scratch on TensorTonic — cosine similarity, euclidean distance, matrix operations, MSE, and statistics fundamentals.',
