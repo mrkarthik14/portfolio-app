@@ -37,7 +37,7 @@ export const projectEnrichment: Record<string, {
             result: "Formulated a robust, real-time prediction model structure that successfully navigates extreme imbalance, demonstrating serious ML maturity in financial risk contexts."
         }
     },
-    'telco-churn-prediction': {
+    'telco-churn-prediction-customer-churn-prediction': {
         description: 'End-to-end ML pipeline predicting telecom churn with 92% accuracy. Prevented 15% ARR loss using targeted feature engineering and SMOTE for class imbalance.',
         skills: ['Python', 'Scikit-learn', 'Streamlit', 'SMOTE', 'Machine Learning'],
         isFavorite: true,
@@ -49,7 +49,7 @@ export const projectEnrichment: Record<string, {
             result: "Achieved a 92% prediction accuracy, providing a deployable tool that enables targeted retention campaigns and theoretically prevents up to 15% in ARR loss."
         }
     },
-    'Optimizing-E-Commerce-Recommendations-AB-Testing': {
+    'Optimizing-E-Commerce-Recommendations-Using-A-B-Testing': {
         description: 'Product analytics framework optimizing e-commerce conversions. Designed statistical A/B tests to evaluate recommendation algorithms, improving click-through rates by 12%.',
         skills: ['Python', 'A/B Testing', 'Statistical Inference', 'Data Analytics', 'Product Analytics'],
         isFavorite: true,
@@ -168,9 +168,14 @@ export const projectEnrichment: Record<string, {
         order: 22,
     },
     'A-Silent-Thread': {
-        description: 'Creative storytelling project exploring narrative design and interactive fiction concepts.',
-        skills: ['Creative Writing', 'Narrative Design', 'Storytelling'],
+        description: 'Creative storytelling project exploring narrative design and interactive fiction concepts using React.',
+        skills: ['React', 'JavaScript', 'Creative Writing', 'Narrative Design', 'Storytelling'],
         order: 23,
+    },
+    'luca': {
+        description: 'Custom Android launcher designed for streamlined app access and personalized home screen experience.',
+        skills: ['Android', 'Java', 'Kotlin', 'Mobile Development'],
+        order: 23.5,
     },
     'TechnoSnag': {
         description: 'Tech troubleshooting and debugging knowledge base — curated solutions for common development issues and best practices.',
