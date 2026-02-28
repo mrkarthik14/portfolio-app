@@ -22,6 +22,7 @@ export async function GET() {
                 topics: allTopics,
                 skills: skills,
                 isFavorite: enriched?.isFavorite || false,
+                order: enriched?.order || 99,
                 aiAnalysis: enriched?.aiAnalysis,
                 createdAt: p.createdAt.toISOString(),
                 updatedAt: p.updatedAt.toISOString(),

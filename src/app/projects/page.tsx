@@ -56,6 +56,15 @@ function getProjectCategory(project: ProjectData): string {
 
 function sortProjectsByCategory(projects: ProjectData[]): ProjectData[] {
     return [...projects].sort((a, b) => {
+        // 1. Primary Sort: Global Order rank (from projectEnrichment)
+        const orderA = a.order ?? 99;
+        const orderB = b.order ?? 99;
+
+        if (orderA !== orderB) {
+            return orderA - orderB;
+        }
+
+        // 2. Secondary Sort: Fallback to category grouping if no explicit order is set
         const catA = CATEGORY_ORDER.indexOf(getProjectCategory(a));
         const catB = CATEGORY_ORDER.indexOf(getProjectCategory(b));
         return catA - catB;

@@ -24,6 +24,7 @@ export interface ProjectData {
     language: string | null;
     topics: string[];
     isFavorite?: boolean;
+    order?: number;
     aiAnalysis?: {
         situation: string;
         task: string;
