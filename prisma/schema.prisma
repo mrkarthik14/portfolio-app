@@ -1,0 +1,67 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model Project {
+  id          String   @id @default(cuid())
+  githubId    Int      @unique
+  name        String
+  description String?
+  url         String
+  homepage    String?
+  stars       Int      @default(0)
+  forks       Int      @default(0)
+  language    String?
+  topics      String   @default("[]") // JSON array stored as string for SQLite
+  createdAt   DateTime
+  updatedAt   DateTime @updatedAt
+  syncedAt    DateTime @default(now())
+}
+
+model LinkedInPost {
+  id         String   @id @default(cuid())
+  externalId String?  @unique
+  content    String
+  imageUrl   String?
+  likes      Int      @default(0)
+  comments   Int      @default(0)
+  postDate   DateTime
+  syncedAt   DateTime @default(now())
+}
+
+model ProfileStats {
+  id          String   @id @default(cuid())
+  platform    String
+  followers   Int      @default(0)
+  connections Int      @default(0)
+  publicRepos Int      @default(0)
+  totalStars  Int      @default(0)
+  recordedAt  DateTime @default(now())
+}
+
+model ContactMessage {
+  id        String   @id @default(cuid())
+  name      String
+  email     String
+  message   String
+  createdAt DateTime @default(now())
+}
+
+model SyncLog {
+  id       String   @id @default(cuid())
+  platform String
+  status   String
+  message  String?
+  syncedAt DateTime @default(now())
+}
+
+model PageView {
+  id        String   @id @default(cuid())
+  page      String
+  createdAt DateTime @default(now())
+}

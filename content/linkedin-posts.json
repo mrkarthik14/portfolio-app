@@ -1,0 +1,50 @@
+[
+    {
+        "id": "1",
+        "content": "🚀 Just deployed my marketplace analytics dashboard! Built an interactive Streamlit app with 5 actionable business insights from real e-commerce data. The power of Python + Plotly for data storytelling never gets old.\n\n#DataScience #Streamlit #Analytics #Python",
+        "imageUrl": null,
+        "likes": 42,
+        "comments": 8,
+        "postDate": "2026-02-13T12:00:00.000Z"
+    },
+    {
+        "id": "2",
+        "content": "💡 Key insight from my Telco Churn Prediction project: Feature engineering made the difference between 78% and 92% accuracy.\n\nWhat worked:\n• Encoding tenure into categorical buckets\n• Creating interaction features between contract type and monthly charges\n• Handling class imbalance with SMOTE\n\nThe Streamlit inference dashboard makes it easy for business teams to use the model directly.\n\n#MachineLearning #ChurnPrediction #DataScience",
+        "imageUrl": null,
+        "likes": 89,
+        "comments": 15,
+        "postDate": "2026-02-12T12:00:00.000Z"
+    },
+    {
+        "id": "3",
+        "content": "📊 A/B Testing in E-Commerce: Just wrapped up an analysis optimizing recommendation systems using statistical hypothesis testing.\n\nResults:\n• 12% improvement in conversion rate with the new algorithm\n• Used chi-squared tests and confidence intervals\n• Sample size calculations were crucial for reliable results\n\nData-driven decisions > gut feelings, every time.\n\n#ABTesting #Statistics #ECommerce #DataAnalytics",
+        "imageUrl": null,
+        "likes": 67,
+        "comments": 12,
+        "postDate": "2026-02-09T12:00:00.000Z"
+    },
+    {
+        "id": "4",
+        "content": "🎯 Building a Customer Retention Intelligence System from scratch.\n\nThe goal: predict which customers are likely to churn BEFORE they leave, and recommend personalized retention strategies.\n\nTech stack: Python, Scikit-learn, Pandas, and a lot of domain knowledge from behavioral analytics.\n\nEvery dataset tells a story — you just have to ask the right questions.\n\n#CustomerRetention #MachineLearning #Analytics",
+        "imageUrl": null,
+        "likes": 54,
+        "comments": 9,
+        "postDate": "2026-01-07T12:00:00.000Z"
+    },
+    {
+        "id": "5",
+        "content": "🏏 Fun project alert! Built a Power BI dashboard analyzing ICC T20 World Cup 2022 player performance.\n\nKey metrics tracked:\n• Batting strike rates and consistency\n• Bowling economy and wicket-taking ability\n• Fielding impact scores\n\nSports + Data = Endless possibilities! 📈\n\n#DataVisualization #PowerBI #Cricket #SportsAnalytics",
+        "imageUrl": null,
+        "likes": 156,
+        "comments": 28,
+        "postDate": "2025-12-01T12:00:00.000Z"
+    },
+    {
+        "id": "6",
+        "content": "🔥 Credit Card Fraud Detection: Tackling one of the most challenging ML problems.\n\nWhy it's hard:\n• Extreme class imbalance (fraud < 1% of transactions)\n• Need for real-time prediction\n• High cost of false negatives AND false positives\n\nMy approach: Ensemble methods + anomaly detection + careful threshold tuning.\n\n#FraudDetection #MachineLearning #FinTech #DataScience",
+        "imageUrl": null,
+        "likes": 73,
+        "comments": 11,
+        "postDate": "2025-10-15T12:00:00.000Z"
+    }
+]
