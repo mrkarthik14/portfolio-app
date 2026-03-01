@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import {
     Container, Typography, Stack, Box, useTheme,
-    Chip, Paper, Divider, darken, Collapse, Tooltip, IconButton
+    Chip, Paper, Divider, darken, Collapse, Tooltip, IconButton, Avatar
 } from '@mui/material';
 import AutoAwesomeIcon from '@mui/icons-material/AutoAwesome';
 import SchoolIcon from '@mui/icons-material/School';
@@ -12,6 +12,7 @@ import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import PlayCircleFilledIcon from '@mui/icons-material/PlayCircleFilled';
 import AnimatedSection from '@/components/ui/AnimatedSection';
+import Lanyard from '@/components/ui/Lanyard';
 import { getSkillColor, brandColors } from '@/lib/brandColors';
 
 const education = [
@@ -206,88 +207,77 @@ export default function EducationPage() {
                 </Collapse>
             </AnimatedSection>
 
-            {/* Education Timeline */}
-            <Stack gap={0} sx={{ mb: 6 }}>
+            {/* Education Timeline as Lanyards */}
+            <Box sx={{
+                display: 'flex',
+                flexDirection: { xs: 'column', md: 'row' },
+                gap: 4,
+                mb: 8,
+                justifyContent: 'center',
+                alignItems: 'center'
+            }}>
                 {education.map((edu, i) => (
                     <AnimatedSection key={edu.degree} delay={i * 0.1}>
-                        <Stack direction="row" gap={3} sx={{ position: 'relative' }}>
-                            {/* Timeline */}
-                            <Stack alignItems="center" sx={{ width: 44, flexShrink: 0 }}>
-                                <Box
-                                    sx={{
-                                        width: 44,
-                                        height: 44,
-                                        borderRadius: '50%',
+                        <Box sx={{
+                            width: { xs: '100vw', md: '45vw' },
+                            maxWidth: '500px',
+                            height: '500px',
+                            position: 'relative'
+                        }}>
+                            <Lanyard position={[0, 0, 20]} gravity={[0, -40, 0]}>
+                                <Stack spacing={1.5} sx={{ textAlign: 'center', alignItems: 'center', height: '100%', pt: 2 }}>
+
+                                    <Avatar sx={{ bgcolor: i === 0 ? '#1565c0' : '#2e7d32', width: 44, height: 44, mb: 0.5, boxShadow: '0 4px 10px rgba(0,0,0,0.1)' }}>
+                                        <SchoolIcon fontSize="medium" />
+                                    </Avatar>
+
+                                    <Typography variant="body1" fontWeight={900} sx={{ fontSize: '1.05rem', lineHeight: 1.2, color: '#1a1a1a' }}>
+                                        {edu.degree}
+                                    </Typography>
+
+                                    <Typography variant="body2" sx={{ fontWeight: 700, color: '#444', fontSize: '0.85rem' }}>
+                                        {edu.institution}
+                                    </Typography>
+
+                                    <Typography variant="caption" sx={{ color: '#666', fontWeight: 600 }}>
+                                        {edu.duration}
+                                    </Typography>
+
+                                    <Chip
+                                        label={edu.status}
+                                        size="small"
+                                        sx={{
+                                            bgcolor: i === 0 ? '#e3f2fd' : '#e8f5e9',
+                                            color: i === 0 ? '#1565c0' : '#2e7d32',
+                                            fontWeight: 800,
+                                            fontSize: '0.65rem',
+                                            height: 22,
+                                            border: `1px solid ${i === 0 ? '#90caf9' : '#a5d6a7'}`
+                                        }}
+                                    />
+
+                                    <Divider sx={{ width: '80%', my: 0.5, borderColor: 'rgba(0,0,0,0.1)' }} />
+
+                                    {/* Render Tags */}
+                                    <Box sx={{
+                                        transform: 'scale(0.85)',
+                                        transformOrigin: 'top center',
+                                        width: '115%',
+                                        maxHeight: '120px',
+                                        overflow: 'hidden',
                                         display: 'flex',
-                                        alignItems: 'center',
-                                        justifyContent: 'center',
-                                        bgcolor: i === 0 ? `${theme.palette.primary.main}15` : `${theme.palette.success.main}15`,
-                                        border: `2px solid ${i === 0 ? theme.palette.primary.main : theme.palette.success.main}`,
-                                    }}
-                                >
-                                    {i === 0 ? (
-                                        <PlayCircleFilledIcon sx={{ color: theme.palette.primary.main, fontSize: 22 }} />
-                                    ) : (
-                                        <CheckCircleIcon sx={{ color: theme.palette.success.main, fontSize: 22 }} />
-                                    )}
-                                </Box>
-                                {i < education.length - 1 && (
-                                    <Box sx={{ width: 3, flexGrow: 1, bgcolor: theme.palette.divider, my: 0.5 }} />
-                                )}
-                            </Stack>
-
-                            {/* Card */}
-                            <Paper
-                                elevation={0}
-                                sx={{
-                                    flex: 1,
-                                    p: 3,
-                                    mb: 3,
-                                    borderRadius: 3,
-                                    border: `1px solid ${i === 0 ? theme.palette.primary.main + '40' : theme.palette.divider}`,
-                                    bgcolor: i === 0 ? `${theme.palette.primary.main}05` : theme.palette.background.paper,
-                                    transition: 'all 0.3s',
-                                    '&:hover': { transform: 'translateX(4px)', borderColor: theme.palette.primary.main },
-                                }}
-                            >
-                                <Stack direction="row" justifyContent="space-between" alignItems="flex-start" flexWrap="wrap" gap={1}>
-                                    <Box>
-                                        <Typography variant="h5" fontWeight={800}>
-                                            {edu.degree}
-                                        </Typography>
-                                        <Stack direction="row" gap={1} alignItems="center" mt={0.5}>
-                                            <SchoolIcon sx={{ fontSize: 18, color: theme.palette.primary.main }} />
-                                            <Typography variant="subtitle1" color="primary" fontWeight={600}>
-                                                {edu.institution}
-                                            </Typography>
-                                        </Stack>
+                                        flexDirection: 'column',
+                                        gap: 0.5
+                                    }}>
+                                        {renderHighlights(edu.highlights)}
                                     </Box>
-                                    <Stack alignItems="flex-end" gap={0.5}>
-                                        <Chip
-                                            icon={<CalendarMonthIcon />}
-                                            label={edu.duration}
-                                            size="small"
-                                            variant="outlined"
-                                        />
-                                        <Chip
-                                            label={edu.status}
-                                            size="small"
-                                            color={i === 0 ? 'primary' : 'success'}
-                                            variant={i === 0 ? 'filled' : 'outlined'}
-                                        />
-                                    </Stack>
+
                                 </Stack>
-
-                                <Divider sx={{ my: 2 }} />
-
-                                {/* Render Tags */}
-                                {renderHighlights(edu.highlights)}
-
-                            </Paper>
-                        </Stack>
+                            </Lanyard>
+                        </Box>
                     </AnimatedSection>
                 ))}
-            </Stack>
+            </Box>
 
             {/* Certifications */}
             <AnimatedSection delay={0.2}>

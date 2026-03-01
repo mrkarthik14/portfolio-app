@@ -3,7 +3,7 @@
 'use client';
 import { useEffect, useRef, useState } from 'react';
 import { Canvas, extend, useFrame } from '@react-three/fiber';
-import { useGLTF, useTexture, Environment, Lightformer } from '@react-three/drei';
+import { useGLTF, useTexture, Environment, Lightformer, Html } from '@react-three/drei';
 import { BallCollider, CuboidCollider, Physics, RigidBody, useRopeJoint, useSphericalJoint } from '@react-three/rapier';
 import { MeshLineGeometry, MeshLineMaterial } from 'meshline';
 
@@ -15,7 +15,7 @@ import './Lanyard.css';
 
 extend({ MeshLineGeometry, MeshLineMaterial });
 
-export default function Lanyard({ position = [0, 0, 30], gravity = [0, -40, 0], fov = 20, transparent = true }) {
+export default function Lanyard({ children, position = [0, 0, 30], gravity = [0, -40, 0], fov = 20, transparent = true }) {
     const [isMobile, setIsMobile] = useState(() => typeof window !== 'undefined' && window.innerWidth < 768);
 
     useEffect(() => {
@@ -34,7 +34,7 @@ export default function Lanyard({ position = [0, 0, 30], gravity = [0, -40, 0], 
             >
                 <ambientLight intensity={Math.PI} />
                 <Physics gravity={gravity} timeStep={isMobile ? 1 / 30 : 1 / 60}>
-                    <Band isMobile={isMobile} />
+                    <Band isMobile={isMobile} children={children} />
                 </Physics>
                 <Environment blur={0.75}>
                     <Lightformer
@@ -71,7 +71,7 @@ export default function Lanyard({ position = [0, 0, 30], gravity = [0, -40, 0], 
     );
 }
 
-function Band({ maxSpeed = 50, minSpeed = 0, isMobile = false }) {
+function Band({ children, maxSpeed = 50, minSpeed = 0, isMobile = false }) {
     const band = useRef(),
         fixed = useRef(),
         j1 = useRef(),
@@ -176,6 +176,35 @@ function Band({ maxSpeed = 50, minSpeed = 0, isMobile = false }) {
                         </mesh>
                         <mesh geometry={nodes.clip.geometry} material={materials.metal} material-roughness={0.3} />
                         <mesh geometry={nodes.clamp.geometry} material={materials.metal} />
+
+                        {children && (
+                            <Html
+                                transform
+                                position={[0, 0.12, 0.015]}
+                                rotation={[0, 0, 0]}
+                                distanceFactor={1.5}
+                                zIndexRange={[100, 0]}
+                                style={{
+                                    pointerEvents: 'none',
+                                }}
+                            >
+                                <div style={{
+                                    width: '240px',
+                                    height: '350px',
+                                    display: 'flex',
+                                    flexDirection: 'column',
+                                    justifyContent: 'center',
+                                    alignItems: 'center',
+                                    padding: '20px',
+                                    boxSizing: 'border-box',
+                                    color: 'black',
+                                    textAlign: 'center'
+                                }}>
+                                    {children}
+                                </div>
+                            </Html>
+                        )}
+
                     </group>
                 </RigidBody>
             </group>
