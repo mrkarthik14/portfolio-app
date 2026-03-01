@@ -20,7 +20,7 @@ const education = [
         degree: 'Master of Science (M.Sc.) in Computer Science',
         institution: 'Sri Venkateswara University, Tirupati',
         duration: '2024 – 2026',
-        status: 'Currently Pursuing',
+        status: 'CGPA: 7.56 (Currently Pursuing)',
         highlights: [
             'Presented seminar on Autonomous AI Agents using LangChain and LangGraph',
             'Attended Microsoft Git & GitHub Workshop conducted at the university',
@@ -267,8 +267,12 @@ export default function EducationPage() {
                                             <Chip
                                                 label={edu.status}
                                                 size="small"
-                                                color={i === 0 ? 'primary' : 'success'}
-                                                variant={i === 0 ? 'filled' : 'outlined'}
+                                                sx={{
+                                                    bgcolor: theme.palette.mode === 'dark' ? '#1e293b' : '#0f172a',
+                                                    color: '#f8fafc',
+                                                    fontWeight: 600,
+                                                    border: 'none'
+                                                }}
                                             />
                                         </Stack>
                                     </Stack>
