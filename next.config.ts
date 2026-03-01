@@ -5,7 +5,16 @@ const nextConfig: NextConfig = {
   experimental: {
   },
   images: {
-    domains: ['avatars.githubusercontent.com', 'media.licdn.com'],
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: 'avatars.githubusercontent.com',
+      },
+      {
+        protocol: 'https',
+        hostname: 'media.licdn.com',
+      },
+    ],
   },
 };
 
