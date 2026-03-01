@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server';
 import prisma from '@/lib/prisma';
+export const dynamic = 'force-dynamic';
 import { getLanguageDistribution } from '@/lib/github';
 
 export async function GET() {

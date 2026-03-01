@@ -2,6 +2,8 @@ import { NextResponse } from 'next/server';
 import { fetchGitHubUser } from '@/lib/github';
 import prisma from '@/lib/prisma';
 
+export const dynamic = 'force-dynamic';
+
 export async function GET() {
     try {
         const username = process.env.GITHUB_USERNAME || 'mrkarthik14';

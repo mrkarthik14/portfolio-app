@@ -1,4 +1,5 @@
 import { NextResponse } from 'next/server';
+export const dynamic = 'force-dynamic';
 import { fetchGitHubRepos, fetchGitHubUser } from '@/lib/github';
 import prisma from '@/lib/prisma';
 
