@@ -10,41 +10,48 @@ import {
     TextField,
     useTheme
 } from '@mui/material';
-import ChatIcon from '@mui/icons-material/Chat';
 import CloseIcon from '@mui/icons-material/Close';
 import AutoAwesomeIcon from '@mui/icons-material/AutoAwesome';
 import SendIcon from '@mui/icons-material/Send';
 import { motion, AnimatePresence } from 'framer-motion';
+import { useChat } from '@ai-sdk/react';
+import ReactMarkdown from 'react-markdown';
 
 export default function FloatingChatAgent() {
     const [isOpen, setIsOpen] = useState(false);
-    const [messages, setMessages] = useState<{ sender: 'ai' | 'user', text: string }[]>([
-        { sender: 'ai', text: "Hi there! 👋 I'm the AI portfolio assistant. Feel free to ask me about Charan's projects, experience, or skills!" }
-    ]);
-    const [input, setInput] = useState('');
     const messagesEndRef = useRef<HTMLDivElement>(null);
+    const theme = useTheme();
+
+    const { messages, sendMessage } = useChat({
+        api: '/api/chat',
+        initialMessages: [
+            {
+                id: 'welcome',
+                role: 'assistant',
+                parts: [{ type: 'text', text: "Hi there! 👋 I'm the AI portfolio assistant. Feel free to ask me about Charan's projects, experience, or skills!" }]
+            }
+        ]
+    } as any);
+
+    const [input, setInput] = useState('');
+
+    const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        setInput(e.target.value);
+    };
+
+    const handleSend = (e?: React.FormEvent | React.KeyboardEvent) => {
+        if (e) e.preventDefault();
+        if (!input || !input.trim()) return;
+
+        const text = input.trim();
+        setInput('');
+        sendMessage({ text });
+    };
 
     // Auto-scroll to bottom
     useEffect(() => {
         messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
     }, [messages]);
-
-    const handleSend = () => {
-        if (!input.trim()) return;
-
-        // Add user message
-        setMessages(prev => [...prev, { sender: 'user', text: input }]);
-        const currentInput = input;
-        setInput('');
-
-        // Simulate AI response
-        setTimeout(() => {
-            setMessages(prev => [...prev, {
-                sender: 'ai',
-                text: `That's a great question about "${currentInput}". I'm currently in prototype mode, but you can find detailed AI briefs on the Projects page or check out the 'About' section!`
-            }]);
-        }, 1000);
-    };
 
     return (
         <>
@@ -73,8 +80,9 @@ export default function FloatingChatAgent() {
                                 flexDirection: 'column',
                                 borderRadius: 4,
                                 overflow: 'hidden',
-                                border: '1px solid',
-                                borderColor: 'divider',
+                                border: `1px solid ${theme.palette.divider}`,
+                                background: `linear-gradient(135deg, ${theme.palette.background.paper}, #00838f08)`,
+                                boxShadow: `0 12px 40px #00838f20`,
                             }}
                         >
                             {/* Header - Filled Chilled Color */}
@@ -101,13 +109,13 @@ export default function FloatingChatAgent() {
                             </Box>
 
                             {/* Chat Area */}
-                            <Box sx={{ flex: 1, p: 2, overflowY: 'auto', display: 'flex', flexDirection: 'column', gap: 2, bgcolor: 'background.default' }}>
+                            <Box sx={{ flex: 1, p: 2, overflowY: 'auto', display: 'flex', flexDirection: 'column', gap: 2, background: 'transparent' }}>
                                 {messages.map((msg, i) => (
                                     <Box
-                                        key={i}
+                                        key={msg.id}
                                         sx={{
                                             display: 'flex',
-                                            justifyContent: msg.sender === 'user' ? 'flex-end' : 'flex-start'
+                                            justifyContent: msg.role === 'user' ? 'flex-end' : 'flex-start'
                                         }}
                                     >
                                         <Paper
@@ -116,17 +124,21 @@ export default function FloatingChatAgent() {
                                                 p: 1.5,
                                                 maxWidth: '85%',
                                                 borderRadius: 3,
-                                                bgcolor: msg.sender === 'user' ? '#00838f' : 'background.paper',
-                                                color: msg.sender === 'user' ? 'white' : 'text.primary',
-                                                border: msg.sender === 'ai' ? '1px solid' : 'none',
-                                                borderColor: 'divider',
-                                                borderBottomRightRadius: msg.sender === 'user' ? 4 : 16,
-                                                borderBottomLeftRadius: msg.sender === 'ai' ? 4 : 16,
+                                                bgcolor: msg.role === 'user' ? '#00838f' : (theme.palette.mode === 'dark' ? 'rgba(0, 131, 143, 0.1)' : '#e0f7fa'),
+                                                color: msg.role === 'user' ? 'white' : 'text.primary',
+                                                border: msg.role !== 'user' ? `1px solid ${theme.palette.divider}` : 'none',
+                                                borderLeft: msg.role !== 'user' ? `4px solid #00838f` : 'none',
+                                                borderBottomRightRadius: msg.role === 'user' ? 4 : 16,
+                                                borderBottomLeftRadius: msg.role !== 'user' ? 4 : 16,
+                                                fontSize: '0.875rem',
+                                                lineHeight: 1.5,
+                                                '& p': { m: 0, '&:not(:last-child)': { mb: 1 } },
+                                                '& a': { color: msg.role === 'user' ? 'white' : '#00838f' }
                                             }}
                                         >
-                                            <Typography variant="body2" sx={{ lineHeight: 1.5 }}>
-                                                {msg.text}
-                                            </Typography>
+                                            <ReactMarkdown>
+                                                {msg.parts?.filter(p => p.type === 'text').map(p => (p as any).text).join('') || (msg as any).content || ''}
+                                            </ReactMarkdown>
                                         </Paper>
                                     </Box>
                                 ))}
@@ -134,24 +146,29 @@ export default function FloatingChatAgent() {
                             </Box>
 
                             {/* Input Area */}
-                            <Box sx={{ p: 2, borderTop: 1, borderColor: 'divider', bgcolor: 'background.paper', display: 'flex', gap: 1 }}>
+                            <Box
+                                component="form"
+                                onSubmit={handleSend}
+                                sx={{ p: 2, borderTop: `1px solid ${theme.palette.divider}`, background: 'transparent', display: 'flex', gap: 1 }}
+                            >
                                 <TextField
                                     size="small"
                                     fullWidth
                                     placeholder="Ask me something..."
                                     value={input}
-                                    onChange={(e) => setInput(e.target.value)}
-                                    onKeyPress={(e) => e.key === 'Enter' && handleSend()}
+                                    onChange={handleInputChange}
                                     sx={{
-                                        '& .MuiOutlinedInput-root': { borderRadius: 8, bgcolor: 'background.default' }
+                                        '& .MuiOutlinedInput-root': { borderRadius: 8, bgcolor: theme.palette.background.paper }
                                     }}
                                 />
                                 <IconButton
-                                    onClick={handleSend}
+                                    type="submit"
+                                    disabled={!input || !input.trim()}
                                     sx={{
                                         bgcolor: '#00838f',
                                         color: 'white',
                                         '&:hover': { bgcolor: '#006064' },
+                                        '&:disabled': { bgcolor: 'action.disabledBackground', color: 'action.disabled' },
                                         width: 40,
                                         height: 40
                                     }}
@@ -182,7 +199,7 @@ export default function FloatingChatAgent() {
                     }
                 }}
             >
-                {isOpen ? <CloseIcon /> : <ChatIcon />}
+                {isOpen ? <CloseIcon /> : <AutoAwesomeIcon fontSize="large" />}
             </Fab>
         </>
     );
