@@ -12,6 +12,7 @@ import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import PlayCircleFilledIcon from '@mui/icons-material/PlayCircleFilled';
 import AnimatedSection from '@/components/ui/AnimatedSection';
+import PixelCard from '@/components/ui/PixelCard';
 import { getSkillColor, brandColors } from '@/lib/brandColors';
 
 const education = [
@@ -237,53 +238,47 @@ export default function EducationPage() {
                             </Stack>
 
                             {/* Card */}
-                            <Paper
-                                elevation={0}
-                                sx={{
-                                    flex: 1,
-                                    p: 3,
-                                    mb: 3,
-                                    borderRadius: 3,
-                                    border: `1px solid ${i === 0 ? theme.palette.primary.main + '40' : theme.palette.divider}`,
-                                    bgcolor: i === 0 ? `${theme.palette.primary.main}05` : theme.palette.background.paper,
-                                    transition: 'all 0.3s',
-                                    '&:hover': { transform: 'translateX(4px)', borderColor: theme.palette.primary.main },
-                                }}
-                            >
-                                <Stack direction="row" justifyContent="space-between" alignItems="flex-start" flexWrap="wrap" gap={1}>
-                                    <Box>
-                                        <Typography variant="h5" fontWeight={800}>
-                                            {edu.degree}
-                                        </Typography>
-                                        <Stack direction="row" gap={1} alignItems="center" mt={0.5}>
-                                            <SchoolIcon sx={{ fontSize: 18, color: theme.palette.primary.main }} />
-                                            <Typography variant="subtitle1" color="primary" fontWeight={600}>
-                                                {edu.institution}
+                            <Box sx={{
+                                flex: 1,
+                                mb: 3,
+                                transition: 'all 0.3s',
+                                '&:hover': { transform: 'translateX(4px)' }
+                            }}>
+                                <PixelCard variant={i === 0 ? "blue" : "default"}>
+                                    <Stack direction="row" justifyContent="space-between" alignItems="flex-start" flexWrap="wrap" gap={1}>
+                                        <Box>
+                                            <Typography variant="h5" fontWeight={800}>
+                                                {edu.degree}
                                             </Typography>
+                                            <Stack direction="row" gap={1} alignItems="center" mt={0.5}>
+                                                <SchoolIcon sx={{ fontSize: 18, color: theme.palette.primary.main }} />
+                                                <Typography variant="subtitle1" color="primary" fontWeight={600}>
+                                                    {edu.institution}
+                                                </Typography>
+                                            </Stack>
+                                        </Box>
+                                        <Stack alignItems="flex-end" gap={0.5}>
+                                            <Chip
+                                                icon={<CalendarMonthIcon />}
+                                                label={edu.duration}
+                                                size="small"
+                                                variant="outlined"
+                                            />
+                                            <Chip
+                                                label={edu.status}
+                                                size="small"
+                                                color={i === 0 ? 'primary' : 'success'}
+                                                variant={i === 0 ? 'filled' : 'outlined'}
+                                            />
                                         </Stack>
-                                    </Box>
-                                    <Stack alignItems="flex-end" gap={0.5}>
-                                        <Chip
-                                            icon={<CalendarMonthIcon />}
-                                            label={edu.duration}
-                                            size="small"
-                                            variant="outlined"
-                                        />
-                                        <Chip
-                                            label={edu.status}
-                                            size="small"
-                                            color={i === 0 ? 'primary' : 'success'}
-                                            variant={i === 0 ? 'filled' : 'outlined'}
-                                        />
                                     </Stack>
-                                </Stack>
 
-                                <Divider sx={{ my: 2 }} />
+                                    <Divider sx={{ my: 2 }} />
 
-                                {/* Render Tags */}
-                                {renderHighlights(edu.highlights)}
-
-                            </Paper>
+                                    {/* Render Tags */}
+                                    {renderHighlights(edu.highlights)}
+                                </PixelCard>
+                            </Box>
                         </Stack>
                     </AnimatedSection>
                 ))}
