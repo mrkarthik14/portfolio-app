@@ -4,7 +4,17 @@ import { fetchGitHubRepos, fetchGitHubUser } from '@/lib/github';
 import prisma from '@/lib/prisma';
 
 export async function POST() {
+    if (!process.env.DATABASE_URL) {
+        return NextResponse.json({ message: 'Build time bypass' });
+    }
+
     try {
+        let existingProjects: any[] = [];
+        let existingStats = null;
+        existingProjects = await prisma.project.findMany();
+        existingStats = await prisma.profileStats.findFirst({
+            where: { platform: 'github' }
+        });
         const username = process.env.GITHUB_USERNAME;
 
         if (!username) {
@@ -96,9 +106,11 @@ export async function POST() {
         });
     } catch (error: unknown) {
         const message = error instanceof Error ? error.message : 'Unknown error';
-        await prisma.syncLog.create({
-            data: { platform: 'github', status: 'error', message },
-        }).catch(() => { });
+        try {
+            await prisma.syncLog.create({
+                data: { platform: 'github', status: 'error', message },
+            });
+        } catch (e) { /* Ignore during build */ }
         return NextResponse.json({ error: message }, { status: 500 });
     }
 }

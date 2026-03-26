@@ -4,10 +4,19 @@ export const dynamic = 'force-dynamic';
 import { projectEnrichment } from '@/lib/project-enrichment';
 
 export async function GET() {
+    if (!process.env.DATABASE_URL) {
+        return NextResponse.json([]);
+    }
+
     try {
-        const projects = await prisma.project.findMany({
-            orderBy: { updatedAt: 'desc' },
+        let projects: any[] = [];
+        projects = await prisma.project.findMany({
+            orderBy: { stars: 'desc' },
         });
+
+        if (projects.length === 0) {
+            return NextResponse.json([]);
+        }
 
         // Parse topics and apply enrichment (descriptions + skills)
         const formatted = projects.map((p) => {
@@ -25,9 +34,9 @@ export async function GET() {
                 isFavorite: enriched?.isFavorite || false,
                 order: enriched?.order || 99,
                 aiAnalysis: enriched?.aiAnalysis,
-                createdAt: p.createdAt.toISOString(),
-                updatedAt: p.updatedAt.toISOString(),
-                syncedAt: p.syncedAt.toISOString(),
+                createdAt: p.createdAt?.toISOString() || new Date().toISOString(),
+                updatedAt: p.updatedAt?.toISOString() || new Date().toISOString(),
+                syncedAt: p.syncedAt?.toISOString() || new Date().toISOString(),
             };
         });
 

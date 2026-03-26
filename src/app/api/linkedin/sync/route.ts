@@ -2,7 +2,13 @@ import { NextResponse } from 'next/server';
 import { getLinkedInPosts, getLinkedInStats } from '@/lib/linkedin';
 import prisma from '@/lib/prisma';
 
+export const dynamic = 'force-dynamic';
+
 export async function POST() {
+    if (!process.env.DATABASE_URL) {
+        return NextResponse.json({ message: 'Build time bypass' });
+    }
+
     try {
         const [posts, stats] = await Promise.all([
             getLinkedInPosts(),
@@ -71,9 +77,11 @@ export async function POST() {
         });
     } catch (error: unknown) {
         const message = error instanceof Error ? error.message : 'Unknown error';
-        await prisma.syncLog.create({
-            data: { platform: 'linkedin', status: 'error', message },
-        }).catch(() => { });
+        try {
+            await prisma.syncLog.create({
+                data: { platform: 'linkedin', status: 'error', message },
+            });
+        } catch (e) { /* Ignore during build */ }
         return NextResponse.json({ error: message }, { status: 500 });
     }
 }
