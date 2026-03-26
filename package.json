@@ -16,7 +16,9 @@
     "@emotion/styled": "^11.14.1",
     "@mui/icons-material": "^7.3.8",
     "@mui/material": "^7.3.8",
+    "@neondatabase/serverless": "^1.0.2",
     "@netlify/neon": "^0.1.2",
+    "@prisma/adapter-neon": "^7.5.0",
     "@prisma/client": "^6.4.1",
     "@react-three/drei": "^10.7.7",
     "@react-three/fiber": "^9.5.0",
@@ -36,7 +38,8 @@
     "react-markdown": "^10.1.0",
     "recharts": "^3.7.0",
     "remark-gfm": "^4.0.1",
-    "three": "^0.183.2"
+    "three": "^0.183.2",
+    "ws": "^8.20.0"
   },
   "devDependencies": {
     "@types/node": "^20",
