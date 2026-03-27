@@ -1,0 +1,18 @@
+[dotenv@17.3.1] injecting env (6) from .env -- tip: 🔐 prevent building .env in docker: https://dotenvx.com/prebuild
+DATABASE_URL: postgresql://neondb_owner:npg_xj4DKgs3dYwr@ep-curly-unit-aj25wgyh-pooler.c-3.us-east-2.aws.neon.tech/neondb?sslmode=require&channel_binding=require
+Parsing url... postgres://neondb_owner:npg_xj4DKgs3dYwr@ep-curly-unit-aj25wgyh-pooler.c-3.us-east-2.aws.neon.tech/neondb
+Creating pool with parsed options: ep-curly-unit-aj25wgyh-pooler.c-3.us-east-2.aws.neon.tech
+Creating adapter...
+Creating client...
+Querying...
+Test failed: Error: No database host or connection string was set, and key parameters have default values (host: localhost, user: hp, db: hp, password: null). Is an environment variable missing? Alternatively, if you intended to connect with these parameters, please set the host to 'localhost' explicitly.
+    at Un.connect (E:\Portfolio\portfolio-app\node_modules\@neondatabase\serverless\index.js:1318:50)
+    at Dn.newClient (E:\Portfolio\portfolio-app\node_modules\@neondatabase\serverless\index.js:1117:85)
+    at Dn.connect (E:\Portfolio\portfolio-app\node_modules\@neondatabase\serverless\index.js:1114:1)
+    at Dn.query (E:\Portfolio\portfolio-app\node_modules\@neondatabase\serverless\index.js:1138:1)
+    at Dn.query (E:\Portfolio\portfolio-app\node_modules\@neondatabase\serverless\index.js:1354:96)
+    at PrismaNeonAdapter.performIO (E:\Portfolio\portfolio-app\node_modules\@prisma\adapter-neon\dist\index.js:554:40)
+    at PrismaNeonAdapter.queryRaw (E:\Portfolio\portfolio-app\node_modules\@prisma\adapter-neon\dist\index.js:515:41)
+    at E:\Portfolio\portfolio-app\node_modules\@prisma\client\runtime\library.js:6:6789 {
+  clientVersion: '6.19.2'
+}

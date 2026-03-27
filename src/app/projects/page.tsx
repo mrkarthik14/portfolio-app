@@ -77,7 +77,7 @@ export default function ProjectsPage() {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
     const [search, setSearch] = useState('');
-    const [selectedCategory, setSelectedCategory] = useState<string | null>('favorites');
+    const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
 
     // Skill-based category filters for the chips
     const FILTER_CATEGORIES: { key: string; label: string }[] = [

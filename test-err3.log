@@ -1,0 +1,20 @@
+[dotenv@17.3.1] injecting env (6) from .env -- tip: ⚙️  enable debug logging with { debug: true }
+DATABASE_URL: postgresql://neondb_owner:npg_xj4DKgs3dYwr@ep-curly-unit-aj25wgyh-pooler.c-3.us-east-2.aws.neon.tech/neondb?sslmode=require&channel_binding=require
+Creating pool...
+E:\Portfolio\portfolio-app\node_modules\@neondatabase\serverless\index.js:1090
+Object.assign({},e),e!=null&&"password"in e&&Object.defineProperty(this.options,"password",{configurable:!0,
+                                       ^
+
+TypeError: Cannot use 'in' operator to search for 'password' in postgres://neondb_owner:npg_xj4DKgs3dYwr@ep-curly-unit-aj25wgyh-pooler.c-3.us-east-2.aws.neon.tech/neondb?sslmode=require&channel_binding=require
+    at new Pool (E:\Portfolio\portfolio-app\node_modules\@neondatabase\serverless\index.js:1090:40)
+    at new BoundPool (E:\Portfolio\portfolio-app\node_modules\@neondatabase\serverless\index.js:1214:52)
+    at new NeonPool (E:\Portfolio\portfolio-app\node_modules\@neondatabase\serverless\index.js:1352:1)
+    at test (E:\Portfolio\portfolio-app\test-prisma.js:15:18)
+    at Object.<anonymous> (E:\Portfolio\portfolio-app\test-prisma.js:34:1)
+    at Module._compile (node:internal/modules/cjs/loader:1760:14)
+    at Object..js (node:internal/modules/cjs/loader:1893:10)
+    at Module.load (node:internal/modules/cjs/loader:1480:32)
+    at Module._load (node:internal/modules/cjs/loader:1299:12)
+    at TracingChannel.traceSync (node:diagnostics_channel:328:14)
+
+Node.js v24.11.0

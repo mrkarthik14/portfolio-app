@@ -82,6 +82,8 @@ export function filterPortfolioRepos(repos: GitHubRepo[]): GitHubRepo[] {
     return repos.filter(
         (repo) =>
             !repo.name.startsWith('.') &&
+            !repo.fork &&
+            !repo.private &&
             repo.topics?.includes('portfolio')
     );
 }

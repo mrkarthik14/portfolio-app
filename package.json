@@ -16,7 +16,7 @@
     "@emotion/styled": "^11.14.1",
     "@mui/icons-material": "^7.3.8",
     "@mui/material": "^7.3.8",
-    "@neondatabase/serverless": "^1.0.2",
+    "@neondatabase/serverless": "^0.10.4",
     "@netlify/neon": "^0.1.2",
     "@prisma/adapter-neon": "^7.5.0",
     "@prisma/client": "^6.4.1",

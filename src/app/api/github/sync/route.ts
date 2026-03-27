@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server';
 export const dynamic = 'force-dynamic';
-import { fetchGitHubRepos, fetchGitHubUser } from '@/lib/github';
+import { fetchGitHubRepos, fetchGitHubUser, filterPortfolioRepos } from '@/lib/github';
 import prisma from '@/lib/prisma';
 
 export async function POST() {
@@ -24,10 +24,19 @@ export async function POST() {
             );
         }
 
-        const [repos, user] = await Promise.all([
+        const [allRepos, user] = await Promise.all([
             fetchGitHubRepos(username),
             fetchGitHubUser(username),
         ]);
+
+        // Filter: only repos with 'portfolio' topic. Fallback: top 20 by update date if none tagged.
+        let repos = filterPortfolioRepos(allRepos);
+        if (repos.length === 0) {
+            console.log('No repos with "portfolio" topic found — syncing top 20 most recently updated repos as fallback');
+            repos = allRepos.slice(0, 20);
+        }
+
+        console.log(`Fetched ${allRepos.length} repos total, syncing ${repos.length} portfolio repos`);
 
         // Upsert all repos into database
         let synced = 0;
