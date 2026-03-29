@@ -1,5 +1,5 @@
 <div align="center">
-  <img src="public/screenshot.png" alt="Portfolio Preview" width="100%" />
+  <img src="public/images/hero.png" alt="Portfolio Preview" width="100%" />
 
   # 🎨 Charan Karthik - Data Analyst & Aspiring Data Scientist Portfolio
   
@@ -17,6 +17,24 @@
 - 🎨 **Premium Aesthetic** — Uses a Pantone pastel color palette with glassmorphism UI, smooth Framer Motion animations, and a rich dark/light mode toggle.
 - 📱 **Fully Responsive Layout** — Optimized for all devices from mobile screens to 4K desktop displays.
 - 📝 **Integrated Blog & LinkedIn Post Management** — Manages markdown-based articles and LinkedIn updates effortlessly.
+
+---
+
+## 📸 Screenshots
+
+Here is a glimpse of the different sections of the portfolio:
+
+| Projects Dashboard | About & Skills |
+| :---: | :---: |
+| <img src="public/images/projects.png" alt="Projects Page" width="100%"> | <img src="public/images/about.png" alt="About Page" width="100%"> |
+
+| Education & Certifications | Learning Journey |
+| :---: | :---: |
+| <img src="public/images/education.png" alt="Education Page" width="100%"> | <img src="public/images/learning.png" alt="Learning Journey Page" width="100%"> |
+
+| Contact Page | |
+| :---: | :---: |
+| <img src="public/images/contact.png" alt="Contact Page" width="100%"> | |
 
 ---
 
