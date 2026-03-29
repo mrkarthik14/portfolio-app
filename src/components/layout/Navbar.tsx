@@ -68,19 +68,28 @@ export default function Navbar() {
                                 flexGrow: isMobile ? 1 : 0,
                             }}
                         >
-                            <Box
-                                component="img"
-                                src="/logo.png"
-                                alt="CK Logo"
+                            <Typography
+                                variant="h5"
                                 sx={{
-                                    height: { xs: 36, md: 44 },
-                                    width: 'auto',
+                                    fontFamily: '"Outfit", sans-serif',
+                                    fontWeight: 800,
+                                    letterSpacing: '-1px',
+                                    background: isDark
+                                        ? `linear-gradient(135deg, #60A5FA, #A78BFA)`
+                                        : `linear-gradient(135deg, #1A2980, #26D0CE)`,
+                                    WebkitBackgroundClip: 'text',
+                                    WebkitTextFillColor: 'transparent',
                                     transition: 'transform 0.3s ease',
+                                    display: 'flex',
+                                    alignItems: 'center',
                                     '&:hover': {
                                         transform: 'scale(1.05)'
                                     }
                                 }}
-                            />
+                            >
+                                CK
+                                <Box component="span" sx={{ color: isDark ? '#FFF' : '#000', WebkitTextFillColor: 'initial' }}>.</Box>
+                            </Typography>
                         </Box>
 
                         {!isMobile && (
