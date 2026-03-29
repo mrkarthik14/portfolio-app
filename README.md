@@ -1,11 +1,22 @@
-# 🎨 Personal Portfolio — Auto-Sync Dashboard
+<div align="center">
+  <img src="public/screenshot.png" alt="Portfolio Preview" width="100%" />
 
-A modern, production-ready personal portfolio with:
-- 🔄 **Automatic GitHub sync** — projects update when you push to GitHub
-- 📝 **LinkedIn posts** integration (manual JSON + API-ready)
-- 📊 **Analytics dashboard** with charts + external embed support
-- 🎨 **Pantone pastel design** with glassmorphism, dark/light mode
-- 📱 **Fully responsive** — looks great on every screen
+  # 🎨 Charan Karthik - Data Analyst & Aspiring Data Scientist Portfolio
+  
+  **🌍 Live Site:** [charan-karthik-nayakanti-portfolio.netlify.app](https://charan-karthik-nayakanti-portfolio.netlify.app/)
+
+  A modern, production-ready personal portfolio built for data professionals, featuring automated GitHub sync, an interactive analytics dashboard, and a seamless Pantone pastel design.
+</div>
+
+---
+
+## ✨ Features & Visuals
+
+- 🔄 **Automatic GitHub Sync** — Projects update dynamically when you push to GitHub, ensuring your portfolio is never out of date.
+- 📊 **Analytics Dashboard** — Visualize your GitHub activity and repos by language with sleek charts (Recharts) + external Data Viz embeds (Tableau/PowerBI).
+- 🎨 **Premium Aesthetic** — Uses a Pantone pastel color palette with glassmorphism UI, smooth Framer Motion animations, and a rich dark/light mode toggle.
+- 📱 **Fully Responsive Layout** — Optimized for all devices from mobile screens to 4K desktop displays.
+- 📝 **Integrated Blog & LinkedIn Post Management** — Manages markdown-based articles and LinkedIn updates effortlessly.
 
 ---
 
@@ -16,13 +27,11 @@ A modern, production-ready personal portfolio with:
 cd portfolio-app
 npm install
 
-# 2. Generate Prisma client
+# 2. Generate Prisma client & create initial database
 npx prisma generate
-
-# 3. Create initial database
 npx prisma db push
 
-# 4. Run development server
+# 3. Run development server
 npm run dev
 ```
 
@@ -46,6 +55,8 @@ Copy `.env.example` to `.env` and fill in:
 | `NEXTAUTH_SECRET` | ✅ | Run `openssl rand -base64 32` |
 | `CRON_SECRET` | ⬜ | Protects the cron endpoint on Vercel |
 
+*(Optional variables available for extended functionality such as GitHub OAuth, LinkedIn API access, and Dashboard Embeds.)*
+
 ---
 
 ## 📁 Folder Structure
@@ -53,109 +64,28 @@ Copy `.env.example` to `.env` and fill in:
 ```
 portfolio-app/
 ├── content/              # Blog posts (Markdown) + LinkedIn data (JSON)
-│   ├── blog/             # .md files — auto-discovered
-│   ├── linkedin-posts.json
-│   └── linkedin-stats.json
-├── prisma/
-│   └── schema.prisma     # Database models
-├── public/
-│   └── resume.pdf        # Your downloadable resume
+├── prisma/               # Database models
+├── public/               # Images and static assets
 ├── src/
 │   ├── app/              # Next.js App Router pages + API routes
-│   │   ├── api/          # REST endpoints (github, linkedin, cron, contact)
-│   │   ├── about/        # About + Skills + Resume
-│   │   ├── admin/        # Sync controls
-│   │   ├── blog/         # Markdown blog
-│   │   ├── contact/      # Contact form
-│   │   ├── dashboard/    # Analytics + charts
-│   │   ├── posts/        # LinkedIn posts
-│   │   └── projects/     # GitHub projects
-│   ├── components/       # 18 React components
-│   ├── lib/              # GitHub, LinkedIn, blog, analytics utils
-│   ├── theme/            # MUI custom theme + ThemeProvider
+│   ├── components/       # React components
+│   ├── lib/              # Utils logic
+│   ├── theme/            # MUI custom theme
 │   └── types/            # TypeScript interfaces
-└── vercel.json           # Cron config for auto-sync
+└── netlify/              # Netlify Build Plugins
 ```
-
----
-
-## 🎨 Design System
-
-**Pantone-inspired pastel palette:**
-
-| Color | Hex | Usage |
-|-------|-----|-------|
-| Pastel Blue | `#A7C7E7` | Primary, links, accents |
-| Pastel Lavender | `#C3B1E1` | Secondary, gradients |
-| Pastel Mint | `#B8E0D2` | Success, data viz |
-| Pastel Peach | `#FFD1BA` | Warm accents |
-| Pastel Yellow | `#FFF2B2` | Highlights |
-
-**Features:** Glassmorphism cards, soft shadows, gradient buttons, dark/light mode toggle, Inter + Outfit fonts.
-
----
-
-## 🔄 Auto-Sync Setup
-
-### GitHub
-1. The app fetches repos via the GitHub API automatically
-2. **Webhook (real-time):** In your GitHub settings, add a webhook:
-   - URL: `https://your-domain.com/api/github/webhook`
-   - Secret: Match `GITHUB_WEBHOOK_SECRET` in `.env`
-   - Events: Push, Repository, Create
-3. **Cron (every 6 hours):** Configured in `vercel.json`
-
-### LinkedIn
-1. **Recommended:** Edit `content/linkedin-posts.json` manually
-2. **API:** If you have LinkedIn Marketing Developer Platform access, set `LINKEDIN_ACCESS_TOKEN`
-
----
-
-## 📊 Analytics Dashboard
-
-The dashboard page shows:
-- GitHub activity over time (area chart)
-- Repos by language (pie chart)
-- LinkedIn engagement trends (bar chart)
-- External dashboard embed (Tableau/Looker/Power BI via iframe)
-
-To embed an external dashboard, set `NEXT_PUBLIC_DASHBOARD_EMBED_URL` in `.env`.
-
----
-
-## 📝 Blog
-
-Add Markdown files to `content/blog/`:
-
-```markdown
----
-title: "My Post Title"
-date: "2026-02-16"
-description: "A brief description"
-tags: ["React", "Next.js"]
----
-
-Your blog content here...
-```
-
-Posts auto-appear on `/blog` sorted by date.
 
 ---
 
 ## 🚀 Deployment
 
-### Vercel (recommended)
-```bash
-npm i -g vercel
-vercel deploy
-```
+The site is currently deployed on **Netlify**:
 
-Set environment variables in the Vercel dashboard. The cron job for auto-sync is configured in `vercel.json`.
-
-### Netlify
 ```bash
 netlify deploy --prod
 ```
+
+It is also fully compatible with Vercel.
 
 ---
 
@@ -165,9 +95,9 @@ netlify deploy --prod
 - **UI:** Material UI 6 + Framer Motion
 - **Database:** Prisma + SQLite (dev) / PostgreSQL (prod)
 - **Charts:** Recharts
-- **Blog:** Markdown + react-markdown + remark-gfm
+- **Blog:** Markdown + `react-markdown` + `remark-gfm`
 - **Auth-ready:** NextAuth.js
-- **Deployment:** Vercel/Netlify compatible
+- **Deployment:** Netlify Ready
 
 ---
 

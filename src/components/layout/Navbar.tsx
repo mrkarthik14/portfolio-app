@@ -57,28 +57,31 @@ export default function Navbar() {
             >
                 <Container maxWidth="xl">
                     <Toolbar disableGutters sx={{ gap: { xs: 1, md: 2 }, minHeight: '70px' }}>
-                        <CodeIcon sx={{ color: 'primary.main', fontSize: 28, mr: 1 }} />
-                        <Typography
-                            variant="h6"
+                        <Box
                             component={Link}
                             href="/"
                             sx={{
-                                fontFamily: '"Outfit", sans-serif',
-                                fontWeight: 700,
-                                color: 'text.primary',
+                                display: 'flex',
+                                alignItems: 'center',
                                 textDecoration: 'none',
+                                mr: { xs: 2, md: 4 },
                                 flexGrow: isMobile ? 1 : 0,
-                                mr: 4,
-                                background: isDark
-                                    ? `linear-gradient(135deg, ${theme.palette.primary.main}, ${theme.palette.secondary.main})`
-                                    : `linear-gradient(135deg, #1A2980, #26D0CE)`,
-                                WebkitBackgroundClip: 'text',
-                                WebkitTextFillColor: 'transparent',
-                                transition: 'all 0.3s ease',
                             }}
                         >
-                            CK.
-                        </Typography>
+                            <Box
+                                component="img"
+                                src="/logo.png"
+                                alt="CK Logo"
+                                sx={{
+                                    height: { xs: 36, md: 44 },
+                                    width: 'auto',
+                                    transition: 'transform 0.3s ease',
+                                    '&:hover': {
+                                        transform: 'scale(1.05)'
+                                    }
+                                }}
+                            />
+                        </Box>
 
                         {!isMobile && (
                             <Box sx={{ display: 'flex', gap: 1, flexGrow: 1, justifyContent: 'center' }}>
