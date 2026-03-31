@@ -73,6 +73,17 @@ export async function POST() {
             synced++;
         }
 
+        // Remove projects that no longer exist on GitHub
+        const syncedGithubIds = repos.map(r => r.id);
+        const deleted = await prisma.project.deleteMany({
+            where: {
+                githubId: { notIn: syncedGithubIds },
+            },
+        });
+        if (deleted.count > 0) {
+            console.log(`Removed ${deleted.count} projects no longer on GitHub`);
+        }
+
         // Upsert GitHub profile stats
         await prisma.profileStats.upsert({
             where: { id: 'github-profile' },
@@ -98,7 +109,7 @@ export async function POST() {
             data: {
                 platform: 'github',
                 status: 'success',
-                message: `Synced ${synced} repos, ${user.followers} followers`,
+                message: `Synced ${synced} repos, removed ${deleted.count} stale, ${user.followers} followers`,
             },
         });
 
