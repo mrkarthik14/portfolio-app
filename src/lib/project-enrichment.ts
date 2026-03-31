@@ -76,6 +76,7 @@ export const projectEnrichment: Record<string, {
     'Zomato-data': {
         description: 'Exploratory data analysis (EDA) of Zomato restaurant data. Uncovered cuisine trends, pricing patterns, rating distributions, and location-based insights.',
         skills: ['Python', 'Jupyter', 'Pandas', 'EDA', 'Data Visualization'],
+        isFavorite: true,
         order: 6,
         aiAnalysis: {
             situation: "Understanding consumer dining preferences and restaurant pricing dynamics was difficult without a structured analysis of disorganized location data.",
@@ -87,6 +88,7 @@ export const projectEnrichment: Record<string, {
     'Power-BI-projects': {
         description: 'Collection of Power BI dashboards demonstrating analytical maturity across business contexts, covering sales performance and data-driven decision making.',
         skills: ['Power BI', 'DAX', 'Data Visualization', 'Business Analytics', 'Data Modeling'],
+        isFavorite: true,
         order: 7,
         aiAnalysis: {
             situation: "Various business datasets required interactive, visual storytelling to allow stakeholders to make informed decisions without diving into raw CSVs or SQL databases.",

@@ -14,7 +14,6 @@ import { ProjectData } from '@/types';
 const CATEGORY_ORDER = [
     'python',       // Python (Pandas, NumPy, Matplotlib, Seaborn, Streamlit, Scikit-learn)
     'powerbi',      // Power BI
-    'ml',           // Machine Learning, AI/ML
     'jupyter',      // Jupyter Notebooks
     'html_css_js',  // HTML, CSS, JavaScript
     'typescript',   // TypeScript
@@ -23,7 +22,6 @@ const CATEGORY_ORDER = [
 ];
 
 const PYTHON_SKILLS = ['Python', 'Pandas', 'NumPy', 'Matplotlib', 'Seaborn', 'Streamlit', 'Scikit-learn', 'Plotly'];
-const ML_SKILLS = ['Machine Learning', 'AI/ML', 'Deep Learning', 'GenAI', 'LLM'];
 
 function getProjectCategory(project: ProjectData): string {
     const skills = project.skills || [];
@@ -35,9 +33,6 @@ function getProjectCategory(project: ProjectData): string {
 
     // Power BI projects
     if (skills.includes('Power BI')) return 'powerbi';
-
-    // ML/AI projects (that aren't already Python DS)
-    if (skills.some(s => ML_SKILLS.includes(s))) return 'ml';
 
     // Jupyter notebook projects
     if (lang === 'Jupyter Notebook' || skills.includes('Jupyter')) return 'jupyter';
@@ -84,7 +79,6 @@ export default function ProjectsPage() {
         { key: 'favorites', label: 'Favorites ⭐️' },
         { key: 'python', label: 'Python' },
         { key: 'powerbi', label: 'Power BI' },
-        { key: 'ml', label: 'ML / AI' },
         { key: 'jupyter', label: 'Data Analytics' },
         { key: 'html_css_js', label: 'Web Dev' },
         { key: 'other', label: 'Other' },
