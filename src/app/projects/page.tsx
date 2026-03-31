@@ -12,13 +12,9 @@ import { ProjectData } from '@/types';
 
 // Category priority order for sorting projects
 const CATEGORY_ORDER = [
-    'python',       // Python (Pandas, NumPy, Matplotlib, Seaborn, Streamlit, Scikit-learn)
-    'powerbi',      // Power BI
-    'ml',           // Machine Learning, AI/ML
-    'jupyter',      // Jupyter Notebooks
-    'html_css_js',  // HTML, CSS, JavaScript
-    'typescript',   // TypeScript
-    'react',        // React
+    'ml',           // Machine Learning
+    'analytics',    // Analytics
+    'dashboards',   // Dashboards
     'other',        // Everything else
 ];
 
@@ -27,29 +23,16 @@ const ML_SKILLS = ['Machine Learning', 'AI/ML', 'Deep Learning', 'GenAI', 'LLM']
 
 function getProjectCategory(project: ProjectData): string {
     const skills = project.skills || [];
-    const lang = project.language || '';
+    const name = project.name.toLowerCase();
 
-    // Python data science projects (must have Python + a DS library skill)
-    const hasPythonSkill = skills.some(s => PYTHON_SKILLS.includes(s));
-    if (hasPythonSkill && (lang === 'Python' || skills.includes('Python'))) return 'python';
+    // Dashboards category
+    if (skills.includes('Power BI') || skills.includes('Streamlit') || name.includes('dashboard')) return 'dashboards';
 
-    // Power BI projects
-    if (skills.includes('Power BI')) return 'powerbi';
+    // Machine Learning category
+    if (skills.some(s => ML_SKILLS.includes(s)) || skills.includes('Scikit-learn') || skills.includes('Generative AI')) return 'ml';
 
-    // ML/AI projects (that aren't already Python DS)
-    if (skills.some(s => ML_SKILLS.includes(s))) return 'ml';
-
-    // Jupyter notebook projects
-    if (lang === 'Jupyter Notebook' || skills.includes('Jupyter')) return 'jupyter';
-
-    // HTML/CSS/JavaScript
-    if (['HTML', 'CSS', 'JavaScript'].some(s => skills.includes(s)) || lang === 'HTML' || lang === 'JavaScript') return 'html_css_js';
-
-    // TypeScript
-    if (skills.includes('TypeScript') || lang === 'TypeScript') return 'typescript';
-
-    // React
-    if (skills.includes('React')) return 'react';
+    // Analytics category
+    if (skills.includes('Data Analytics') || skills.includes('Pandas') || skills.includes('A/B Testing') || skills.includes('EDA')) return 'analytics';
 
     return 'other';
 }
@@ -81,13 +64,9 @@ export default function ProjectsPage() {
 
     // Skill-based category filters for the chips
     const FILTER_CATEGORIES: { key: string; label: string }[] = [
-        { key: 'favorites', label: 'Favorites ⭐️' },
-        { key: 'python', label: 'Python' },
-        { key: 'powerbi', label: 'Power BI' },
-        { key: 'ml', label: 'ML / AI' },
-        { key: 'jupyter', label: 'Data Analytics' },
-        { key: 'html_css_js', label: 'Web Dev' },
-        { key: 'other', label: 'Other' },
+        { key: 'ml', label: 'Machine Learning' },
+        { key: 'analytics', label: 'Analytics' },
+        { key: 'dashboards', label: 'Dashboards' },
     ];
 
     useEffect(() => {

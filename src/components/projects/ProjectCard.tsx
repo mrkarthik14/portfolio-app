@@ -64,9 +64,18 @@ export default function ProjectCard({ project }: ProjectCardProps) {
             <Stack gap={2} sx={{ height: '100%' }}>
                 {/* Header */}
                 <Stack direction="row" justifyContent="space-between" alignItems="flex-start">
-                    <Typography variant="h5" fontWeight={800} color="text.primary" sx={{ flex: 1, mr: 1 }}>
-                        {project.name}
-                    </Typography>
+                    <Box sx={{ flex: 1, mr: 1 }}>
+                        {project.isFavorite && (
+                            <Chip 
+                                label="⭐ Featured" 
+                                size="small" 
+                                sx={{ mb: 1, fontWeight: 800, bgcolor: 'rgba(255, 180, 0, 0.15)', color: '#FFB400', border: '1px solid #FFB400' }} 
+                            />
+                        )}
+                        <Typography variant="h5" fontWeight={800} color="text.primary">
+                            {project.name}
+                        </Typography>
+                    </Box>
                     <Stack direction="row" gap={1} alignItems="center">
                         {project.aiAnalysis && (
                             <Tooltip title="AI Project Analysis (STAR)">
@@ -107,6 +116,20 @@ export default function ProjectCard({ project }: ProjectCardProps) {
                         <Typography variant="subtitle2" fontWeight={600} sx={{ color: accentColor }}>
                             {project.language}
                         </Typography>
+                    </Stack>
+                )}
+
+                {/* Metrics Badge */}
+                {project.metrics && project.metrics.length > 0 && (
+                    <Stack direction="row" gap={1} mt={0.5} flexWrap="wrap">
+                        {project.metrics.map((m, idx) => (
+                            <Chip 
+                                key={idx}
+                                label={<Box component="span"><strong>{m.value}</strong> {m.label}</Box>}
+                                size="small"
+                                sx={{ fontWeight: 600, fontSize: '0.75rem', bgcolor: 'rgba(0, 200, 83, 0.1)', color: '#00C853', border: '1px solid rgba(0, 200, 83, 0.3)' }}
+                            />
+                        ))}
                     </Stack>
                 )}
 
@@ -179,40 +202,47 @@ export default function ProjectCard({ project }: ProjectCardProps) {
 
                 {/* Skills (Brand Colored) + Topics (Outlined) */}
                 <Stack direction="row" gap={0.5} flexWrap="wrap">
-                    {(project.skills || []).slice(0, 5).map((skill: string) => {
-                        const style = getSkillColor(skill, theme.palette.primary.main);
-                        // If using primary theme color, we keep it simple, otherwise use custom
-                        const isCustom = !!brandColors[skill];
+                    {(() => {
+                        const skills = project.skills || [];
+                        const topics = (project.topics || []).filter((t: string) => !skills.includes(t));
+                        const allTags = [
+                            ...skills.map(val => ({ val, type: 'skill' })),
+                            ...topics.map(val => ({ val, type: 'topic' }))
+                        ].slice(0, 4); // Limit to 4 tags max
 
-                        return (
-                            <Chip
-                                key={skill}
-                                label={skill}
-                                size="small"
-                                sx={{
-                                    fontSize: '0.7rem',
-                                    fontWeight: 700,
-                                    bgcolor: isCustom ? style.bg : theme.palette.primary.main,
-                                    color: isCustom ? style.color : theme.palette.primary.contrastText,
-                                    '&:hover': {
-                                        bgcolor: isCustom ? darken(style.bg, 0.1) : theme.palette.primary.dark,
-                                    }
-                                }}
-                            />
-                        );
-                    })}
-                    {project.topics
-                        .filter((t: string) => !(project.skills || []).includes(t))
-                        .slice(0, 3)
-                        .map((topic: string) => (
-                            <Chip
-                                key={topic}
-                                label={topic}
-                                size="small"
-                                variant="outlined"
-                                sx={{ fontSize: '0.7rem' }}
-                            />
-                        ))}
+                        return allTags.map((tag) => {
+                            if (tag.type === 'skill') {
+                                const style = getSkillColor(tag.val, theme.palette.primary.main);
+                                const isCustom = !!brandColors[tag.val];
+                                return (
+                                    <Chip
+                                        key={tag.val}
+                                        label={tag.val}
+                                        size="small"
+                                        sx={{
+                                            fontSize: '0.7rem',
+                                            fontWeight: 700,
+                                            bgcolor: isCustom ? style.bg : theme.palette.primary.main,
+                                            color: isCustom ? style.color : theme.palette.primary.contrastText,
+                                            '&:hover': {
+                                                bgcolor: isCustom ? darken(style.bg, 0.1) : theme.palette.primary.dark,
+                                            }
+                                        }}
+                                    />
+                                );
+                            } else {
+                                return (
+                                    <Chip
+                                        key={tag.val}
+                                        label={tag.val}
+                                        size="small"
+                                        variant="outlined"
+                                        sx={{ fontSize: '0.7rem' }}
+                                    />
+                                );
+                            }
+                        });
+                    })()}
                 </Stack>
 
                 {/* Stats bar */}

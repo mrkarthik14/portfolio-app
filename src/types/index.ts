@@ -34,6 +34,10 @@ export interface ProjectData {
         result: string;
     };
     skills?: string[];
+    metrics?: {
+        label: string;
+        value: string;
+    }[];
     createdAt: string;
     updatedAt: string;
 }

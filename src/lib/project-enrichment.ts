@@ -6,6 +6,7 @@ export const projectEnrichment: Record<string, {
     skills: string[];
     isFavorite?: boolean;
     order?: number;
+    metrics?: { label: string; value: string }[];
     aiAnalysis?: {
         situation: string;
         task: string;
@@ -18,6 +19,9 @@ export const projectEnrichment: Record<string, {
         skills: ['Python', 'Scikit-learn', 'Behavioral Analytics', 'Predictive Modeling', 'Pandas'],
         isFavorite: true,
         order: 1,
+        metrics: [
+            { value: '📉 -18%', label: 'Churn Rate' }
+        ],
         aiAnalysis: {
             situation: "Customer retention efforts were reactive and inefficient due to a lack of understanding regarding behavioral indicators of churn.",
             task: "Design an intelligence system that not only predicts churn but also translates behavioral analytics into actionable retention strategies to drive business value.",
@@ -30,6 +34,9 @@ export const projectEnrichment: Record<string, {
         skills: ['Python', 'Machine Learning', 'Anomaly Detection', 'Scikit-learn', 'FinTech'],
         isFavorite: true,
         order: 2,
+        metrics: [
+            { value: '📉 -30%', label: 'False Positives' }
+        ],
         aiAnalysis: {
             situation: "Financial transactions required real-time fraud detection, but the extreme class imbalance (<1% actual fraud instances) crippled standard model performance, leading to high false positives.",
             task: "Develop a high-complexity ML pipeline utilizing anomaly detection and ensemble techniques to accurately identify fraudulent transactions without flagging legitimate users.",
@@ -42,6 +49,10 @@ export const projectEnrichment: Record<string, {
         skills: ['Python', 'Scikit-learn', 'Streamlit', 'SMOTE', 'Machine Learning'],
         isFavorite: true,
         order: 3,
+        metrics: [
+            { value: '📈 92%', label: 'Accuracy' },
+            { value: '📉 -15%', label: 'ARR Loss' }
+        ],
         aiAnalysis: {
             situation: "A telecom company was experiencing high customer churn without a reliable method to identify at-risk customers proactively, resulting in continued Annual Recurring Revenue (ARR) leakage.",
             task: "Create an industry-grade prognostic machine learning model to accurately identify potential churners, specifically addressing the highly imbalanced nature of real-world churn data.",
@@ -54,6 +65,9 @@ export const projectEnrichment: Record<string, {
         skills: ['Python', 'A/B Testing', 'Statistical Inference', 'Data Analytics', 'Product Analytics'],
         isFavorite: true,
         order: 4,
+        metrics: [
+            { value: '📈 +12%', label: 'CTR' }
+        ],
         aiAnalysis: {
             situation: "An e-commerce platform launched a new recommendation algorithm but lacked empirical evidence of its impact on user conversion and engagement.",
             task: "Design and execute an A/B testing experiment to statistically validate the performance of the new recommendation engine against the legacy system.",
