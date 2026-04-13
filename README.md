@@ -3,7 +3,8 @@
 
   # 🎨 Charan Karthik - Data Analyst & Aspiring Data Scientist Portfolio
   
-  **🌍 Live Site:** [charan-karthik-nayakanti-portfolio.netlify.app](https://charan-karthik-nayakanti-portfolio.netlify.app/)
+  **🌍 Live Site:** [charan-karthik-nayakanti-portfolio.netlify.app](https://charan-karthik-nayakanti-14.netlify.app)
+
 
   A modern, production-ready personal portfolio built for data professionals, featuring automated GitHub sync, an interactive analytics dashboard, and a seamless Pantone pastel design.
 </div>
