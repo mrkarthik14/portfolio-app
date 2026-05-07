@@ -9,11 +9,7 @@ export default function ExperiencePage() {
         <Container maxWidth="lg" sx={{ py: 6 }}>
             <AnimatedSection>
                 <Box mb={4}>
-                    <Typography variant="h3" fontWeight={800} gutterBottom sx={{
-                        background: 'linear-gradient(135deg, #1A2980, #26D0CE)',
-                        WebkitBackgroundClip: 'text',
-                        WebkitTextFillColor: 'transparent',
-                    }}>
+                    <Typography variant="h3" fontWeight={800} gutterBottom sx={{ color: 'white' }}>
                         Professional Experience
                     </Typography>
                     <Typography variant="h6" color="text.secondary">

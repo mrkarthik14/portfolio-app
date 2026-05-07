@@ -4,7 +4,7 @@ const experiences = [
     {
         title: 'Freelance Data Analyst',
         company: 'Self-employed — Remote',
-        date: 'Jan 2025 – Present',
+        date: 'Jan 2026 – Mar 2026',
         description: 'Worked on freelance Business Intelligence and reporting projects for retail and e-commerce clients, focused on solving day-to-day business reporting problems using SQL, Power BI, Python, and Excel.',
         bullets: [
             'Built Power BI dashboards for sales tracking, category performance, and seasonal demand analysis to support pricing and stock planning decisions',
@@ -16,7 +16,7 @@ const experiences = [
     {
         title: 'Freelance Project — Siri Travels Tirupati',
         company: 'Self-employed — Remote',
-        date: 'Mar 2025',
+        date: 'Mar 2026 – Apr 2026',
         description: 'Developed and deployed a complete business landing page for Siri Travels Tirupati, a local travel service brand, focused on improving online visibility and generating direct customer inquiries.',
         bullets: [
             'Designed a fully responsive landing page using HTML5, CSS3, and JavaScript for smooth performance across all devices',
