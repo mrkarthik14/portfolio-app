@@ -15,7 +15,9 @@ const allowedProjects = [
     "Power-BI-projects",
     "TensorTonic-Solutions",
     "faang-ml-journey",
-    "AI-Agents"
+    "AI-Agents",
+    "retail-bigquery-analytics",
+    "Siri-Travels-Tirupati"
 ];
 
 export async function GET() {
@@ -48,7 +50,7 @@ export async function GET() {
             return {
                 id: repo.id.toString(),
                 githubId: repo.id,
-                name: repo.name,
+                name: enriched?.title || repo.name,
                 url: repo.html_url,
                 homepage: repo.homepage,
                 stars: repo.stargazers_count || 0,

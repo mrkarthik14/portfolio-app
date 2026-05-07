@@ -2,6 +2,7 @@
 // This is used by the sync API to enrich project data
 
 export const projectEnrichment: Record<string, {
+    title?: string;
     description?: string;
     skills: string[];
     isFavorite?: boolean;
@@ -14,6 +15,36 @@ export const projectEnrichment: Record<string, {
         result: string;
     };
 }> = {
+    'Siri-Travels-Tirupati': {
+        title: 'Siri Travels Tirupati',
+        description: 'Developed and deployed a complete, responsive business landing page for a local travel service brand to improve online visibility and generate direct inquiries.',
+        skills: ['HTML5', 'CSS3', 'JavaScript', 'SEO', 'Hostinger'],
+        isFavorite: true,
+        order: 2.5,
+        aiAnalysis: {
+            situation: "A local travel service relied heavily on offline referrals and lacked a professional, lead-generating digital presence.",
+            task: "Create a fast-loading, mobile-friendly landing page to showcase services and improve search discoverability.",
+            action: "Designed the site using HTML5, CSS3, and JavaScript. Applied local SEO best practices and managed production deployment on Hostinger.",
+            result: "Enhanced the brand's online credibility and established a direct channel for customer inquiries independent of traditional marketing."
+        }
+    },
+    'retail-bigquery-analytics': {
+        title: 'Retail Customer & Sales Analysis',
+        description: 'Analyzed >100,000 fashion retail transactions in Google BigQuery to understand customer behavior, product performance, and retention using Python and SQL.',
+        skills: ['SQL', 'BigQuery', 'Python', 'Streamlit', 'Data Analytics'],
+        isFavorite: true,
+        order: 1.5,
+        metrics: [
+            { value: '📈', label: 'Revenue Growth Insights' },
+            { value: '🔍', label: 'RFM Segmentation' }
+        ],
+        aiAnalysis: {
+            situation: "Businesses needed to identify revenue growth opportunities and customer drop-off points from over 100,000 fashion retail transactions.",
+            task: "Build a complete retail analytics solution to analyze purchasing behavior, retention patterns, and product performance.",
+            action: "Executed production-level SQL in BigQuery, processed data in Python, and deployed a 5-tab interactive Streamlit dashboard. Conducted RFM, cohort, and conversion funnel analysis.",
+            result: "Identified that champion customers (15%) drive 41% of revenue, and uncovered a 47% drop-off at checkout, providing highly actionable growth insights."
+        }
+    },
     'Customer-Retention-Intelligence-System': {
         description: 'Predictive analytics platform reducing churn by 18%. Identifies at-risk customers using behavioral attributes and recommends data-driven retention strategies.',
         skills: ['Python', 'Scikit-learn', 'Behavioral Analytics', 'Predictive Modeling', 'Pandas'],
@@ -30,18 +61,19 @@ export const projectEnrichment: Record<string, {
         }
     },
     'Credit-Card-Fraud-Risk-Analysis': {
-        description: 'Fraud detection system tackling extreme class imbalance (<1% fraud). Reduced false positives by 30% using ensemble stacking, anomaly detection, and custom threshold tuning.',
-        skills: ['Python', 'Machine Learning', 'Anomaly Detection', 'Scikit-learn', 'FinTech'],
+        title: 'Financial Transaction Analysis',
+        description: 'Analyzed >10,000 credit card transaction records using SQL and Python to improve fraud monitoring and reduce false positives in flagged transactions.',
+        skills: ['Power BI', 'SQL', 'Python', 'Data Validation', 'Fraud Detection'],
         isFavorite: true,
         order: 2,
         metrics: [
-            { value: '📉 -30%', label: 'False Positives' }
+            { value: '📉', label: 'Reduced Manual Review Effort' }
         ],
         aiAnalysis: {
-            situation: "Financial transactions required real-time fraud detection, but the extreme class imbalance (<1% actual fraud instances) crippled standard model performance, leading to high false positives.",
-            task: "Develop a high-complexity ML pipeline utilizing anomaly detection and ensemble techniques to accurately identify fraudulent transactions without flagging legitimate users.",
-            action: "Built an ensemble stacking framework leveraging Scikit-learn. Implemented custom threshold tuning and targeted anomaly detection metrics to heavily penalize False Negatives while controlling False Positives.",
-            result: "Formulated a robust, real-time prediction model structure that successfully navigates extreme imbalance, demonstrating serious ML maturity in financial risk contexts."
+            situation: "Financial transactions required better fraud monitoring to reduce false positives and improve the quality of flagged transaction reporting.",
+            task: "Process 10,000+ transaction records from multiple sources using SQL and Python to provide better visibility into risk patterns.",
+            action: "Conducted strong validation for null values, duplicates, and unusual patterns. Built risk reporting dashboards in Power BI.",
+            result: "Improved validation logic reduced unnecessary manual review effort, enabling reviewers to trust flagged reports more confidently."
         }
     },
     'telco-churn-prediction-customer-churn-prediction': {
