@@ -9,7 +9,6 @@ import AutoAwesomeIcon from '@mui/icons-material/AutoAwesome';
 import AnimatedSection from '@/components/ui/AnimatedSection';
 import { getSkillColor } from '@/lib/brandColors';
 import GitHubActivityChart from '@/components/dashboard/GitHubActivityChart'; // Import Chart
-import ExperienceTimeline from '@/components/about/ExperienceTimeline';
 import { AnalyticsData } from '@/types';
 import { getDemoAnalytics } from '@/lib/analytics';
 import Link from 'next/link';
@@ -238,11 +237,6 @@ export default function AboutPage() {
                                 ))}
                             </Grid>
                         </Paper>
-                    </AnimatedSection>
-
-                    {/* Experience Section */}
-                    <AnimatedSection delay={0.3}>
-                        <ExperienceTimeline />
                     </AnimatedSection>
                 </Grid>
 
