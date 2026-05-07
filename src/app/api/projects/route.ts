@@ -17,7 +17,8 @@ const allowedProjects = [
     "faang-ml-journey",
     "AI-Agents",
     "retail-bigquery-analytics",
-    "Siri-Travels-Tirupati"
+    "Siri-Travels-Tirupati",
+    "retail-data-pipeline-adf-sqlserver-snowflake"
 ];
 
 export async function GET() {

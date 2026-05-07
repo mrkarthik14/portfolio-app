@@ -45,6 +45,19 @@ export const projectEnrichment: Record<string, {
             result: "Identified that champion customers (15%) drive 41% of revenue, and uncovered a 47% drop-off at checkout, providing highly actionable growth insights."
         }
     },
+    'retail-data-pipeline-adf-sqlserver-snowflake': {
+        title: 'Retail Data Pipeline: SQL Server to Snowflake',
+        description: 'Architected and deployed a robust ETL pipeline migrating retail data from SQL Server to Snowflake using Azure Data Factory (ADF).',
+        skills: ['Azure Data Factory', 'Snowflake', 'SQL Server', 'Python', 'ETL', 'Data Engineering'],
+        isFavorite: true,
+        order: 1.8,
+        aiAnalysis: {
+            situation: "A reliable and automated infrastructure was required to migrate on-premise retail data from SQL Server into a cloud data warehouse.",
+            task: "Design and implement an end-to-end data pipeline to ingest, transform, and load retail data into Snowflake.",
+            action: "Built Azure Data Factory (ADF) pipelines with infrastructure-as-code deployment templates. Integrated Python scripts for data seeding and SQL table definitions.",
+            result: "Delivered a fully automated, production-ready ETL workflow that seamlessly moves data between platforms, ensuring high availability for analytics."
+        }
+    },
     'Customer-Retention-Intelligence-System': {
         description: 'Predictive analytics platform reducing churn by 18%. Identifies at-risk customers using behavioral attributes and recommends data-driven retention strategies.',
         skills: ['Python', 'Scikit-learn', 'Behavioral Analytics', 'Predictive Modeling', 'Pandas'],
