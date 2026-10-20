@@ -17,7 +17,6 @@ import {
     Container,
 } from '@mui/material';
 import MenuIcon from '@mui/icons-material/Menu';
-import CodeIcon from '@mui/icons-material/Code';
 import { useState } from 'react';
 import { usePathname } from 'next/navigation';
 import Link from 'next/link';
@@ -47,7 +46,7 @@ export default function Navbar() {
                 elevation={0}
                 sx={{
                     background: isDark
-                        ? 'rgba(15, 23, 42, 0.75)'
+                        ? 'rgba(11, 16, 15, 0.88)'
                         : 'rgba(255, 255, 255, 0.85)',
                     backdropFilter: 'blur(20px)',
                     WebkitBackdropFilter: 'blur(20px)',
@@ -76,8 +75,8 @@ export default function Navbar() {
                                     fontWeight: 800,
                                     letterSpacing: '-1px',
                                     background: isDark
-                                        ? `linear-gradient(135deg, #60A5FA, #A78BFA)`
-                                        : `linear-gradient(135deg, #1A2980, #26D0CE)`,
+                                        ? `linear-gradient(135deg, #b2edc7, #e3f5da)`
+                                        : `linear-gradient(135deg, #256843, #6c9d76)`,
                                     WebkitBackgroundClip: 'text',
                                     WebkitTextFillColor: 'transparent',
                                     transition: 'transform 0.3s ease',
@@ -136,6 +135,7 @@ export default function Navbar() {
 
                         {isMobile && (
                             <IconButton
+                                aria-label="Open navigation menu"
                                 onClick={() => setMobileOpen(true)}
                                 sx={{ color: 'text.primary', ml: 1 }}
                             >
@@ -168,7 +168,7 @@ export default function Navbar() {
                             px: 1,
                             background: isDark
                                 ? `linear-gradient(135deg, ${theme.palette.primary.main}, ${theme.palette.secondary.main})`
-                                : `linear-gradient(135deg, #1A2980, #26D0CE)`,
+                                : `linear-gradient(135deg, #256843, #6c9d76)`,
                             WebkitBackgroundClip: 'text',
                             WebkitTextFillColor: 'transparent',
                         }}

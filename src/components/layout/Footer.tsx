@@ -18,8 +18,8 @@ export default function Footer() {
                 py: 4,
                 borderTop: `1px solid ${theme.palette.divider}`,
                 background: isDark
-                    ? 'rgba(15, 23, 42, 0.5)'
-                    : 'rgba(248, 249, 252, 0.8)',
+                    ? 'rgba(11, 16, 15, 0.8)'
+                    : 'rgba(244, 245, 239, 0.9)',
             }}
         >
             <Container maxWidth="xl">
@@ -41,6 +41,7 @@ export default function Footer() {
 
                     <Stack direction="row" gap={1}>
                         <IconButton
+                            aria-label="GitHub profile"
                             href="https://github.com/mrkarthik14"
                             target="_blank"
                             size="small"
@@ -52,6 +53,7 @@ export default function Footer() {
                             <GitHubIcon fontSize="small" />
                         </IconButton>
                         <IconButton
+                            aria-label="LinkedIn profile"
                             href="https://www.linkedin.com/in/charankarthiknayakanti/"
                             target="_blank"
                             size="small"
@@ -63,6 +65,7 @@ export default function Footer() {
                             <LinkedInIcon fontSize="small" />
                         </IconButton>
                         <IconButton
+                            aria-label="Email Charan Karthik"
                             href="mailto:charankarthik60@gmail.com"
                             size="small"
                             sx={{

@@ -43,7 +43,7 @@ export default function ProjectsPage() {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
     const [search, setSearch] = useState('');
-    const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
+    const [selectedCategory, setSelectedCategory] = useState<string | null>('data-science');
 
     // Skill-based category filters for the chips
     const FILTER_CATEGORIES: { key: string; label: string }[] = [
@@ -102,10 +102,10 @@ export default function ProjectsPage() {
         <Container maxWidth="lg" sx={{ py: 6 }}>
             <AnimatedSection>
                 <Typography variant="h3" fontWeight={800} gutterBottom>
-                    Projects
+                    Experiments in data & intelligence
                 </Typography>
                 <Typography variant="h6" color="text.secondary" sx={{ mb: 4, maxWidth: 600 }}>
-                    Open-source projects synced automatically from{' '}
+                    Machine learning, analytics, and data engineering projects, connected to{' '}
                     <Box
                         component="a"
                         href="https://github.com/mrkarthik14"
@@ -137,7 +137,7 @@ export default function ProjectsPage() {
                 />
                 <Stack direction="row" gap={1} flexWrap="wrap">
                     <Chip
-                        label="All"
+                        label="All projects"
                         variant={!selectedCategory ? 'filled' : 'outlined'}
                         onClick={() => setSelectedCategory(null)}
                         color={!selectedCategory ? 'primary' : 'default'}

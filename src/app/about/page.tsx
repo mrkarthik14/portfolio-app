@@ -57,7 +57,7 @@ export default function AboutPage() {
         // Fetch Profile Data
         fetch('/api/profile')
             .then((r) => r.json())
-            .then((data) => setProfile(data))
+            .then((data) => { if (data.github) setProfile({ ...data.github, linkedinUrl: data.linkedin.profileUrl }); })
             .catch(() => { });
 
         // Fetch Analytics Data (for GitHub Chart)
@@ -74,8 +74,8 @@ export default function AboutPage() {
 
     const name = profile?.name || 'Charan Karthik Nayakanti';
     const avatar = profile?.avatarUrl || 'https://avatars.githubusercontent.com/u/150363006?v=4';
-    const repos = profile?.publicRepos || 27;
-    const followers = profile?.followers || 6;
+    const repos = profile?.publicRepos ?? 0;
+    const followers = profile?.followers ?? 0;
 
     // Social Links
     const githubUrl = profile?.profileUrl || 'https://github.com/mrkarthik14';

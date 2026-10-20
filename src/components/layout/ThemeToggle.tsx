@@ -12,6 +12,7 @@ export default function ThemeToggle() {
     return (
         <Tooltip title={`Switch to ${mode === 'light' ? 'dark' : 'light'} mode`}>
             <IconButton
+                aria-label={`Switch to ${mode === 'light' ? 'dark' : 'light'} mode`}
                 onClick={toggleTheme}
                 sx={{
                     color: 'text.primary',

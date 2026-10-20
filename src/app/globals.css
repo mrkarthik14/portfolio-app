@@ -39,3 +39,7 @@ html {
 ::selection {
   background: rgba(167, 199, 231, 0.3);
 }
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+}

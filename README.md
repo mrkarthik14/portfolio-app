@@ -153,3 +153,17 @@ Run `npm run test:github` for isolated regression tests, and `npm run build` to
 validate the production build. For development in the Codex cloud environment's
 HTTPS proxy, use Node 24 and `NODE_USE_ENV_PROXY=1 npm run dev`; ordinary Node
 fetch requests otherwise attempt direct connections. Keep TLS verification enabled.
+
+## Motion portfolio design
+
+The homepage focuses on data science and machine learning with an interactive
+SVG model explorer, a GitHub-connected selected-work gallery, process notes,
+and a skills workbench. The project index opens with the Data Science filter;
+All projects remains available for the complete repository collection.
+
+Use the explorer's Pause control to stop continuous graphic animations.
+Operating-system reduced-motion preferences disable continuous motion, including
+when the preference changes while browsing. Dark mode is the default; the theme
+control preserves the user's light/dark selection locally. Material UI's official
+Next.js App Router cache provider supports server-rendered styles without a blank
+initial render.
