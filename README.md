@@ -44,13 +44,9 @@ Here is a glimpse of the different sections of the portfolio:
 ```bash
 # 1. Install dependencies
 cd portfolio-app
-npm install
+npm ci
 
-# 2. Generate Prisma client & create initial database
-npx prisma generate
-npx prisma db push
-
-# 3. Run development server
+# 2. Run development server (GitHub works without a database)
 npm run dev
 ```
 
@@ -60,18 +56,18 @@ Open [http://localhost:3000](http://localhost:3000) — you should see the portf
 
 ## 🔧 Environment Variables
 
-Copy `.env.example` to `.env` and fill in:
+Set these variables in your deployment settings or a local `.env` file:
 
 | Variable | Required | Description |
 |----------|----------|-------------|
-| `DATABASE_URL` | ✅ | Defaults to `file:./dev.db` (SQLite) |
-| `GITHUB_USERNAME` | ✅ | Your GitHub username |
+| `DATABASE_URL` | ⬜ | PostgreSQL connection string for persistent sync history and LinkedIn data |
+| `GITHUB_USERNAME` | ⬜ | GitHub username; defaults to `mrkarthik14` |
 | `GITHUB_ACCESS_TOKEN` | ⬜ | For private repos + higher rate limits |
 | `GITHUB_CLIENT_ID` | ⬜ | GitHub OAuth App client ID |
 | `GITHUB_CLIENT_SECRET` | ⬜ | GitHub OAuth App client secret |
 | `LINKEDIN_ACCESS_TOKEN` | ⬜ | LinkedIn API token (if approved) |
 | `NEXT_PUBLIC_DASHBOARD_EMBED_URL` | ⬜ | Tableau/Looker/Power BI embed URL |
-| `NEXTAUTH_SECRET` | ✅ | Run `openssl rand -base64 32` |
+| `NEXTAUTH_SECRET` | ⬜ | Run `openssl rand -base64 32` |
 | `CRON_SECRET` | ⬜ | Protects the cron endpoint on Vercel |
 
 *(Optional variables available for extended functionality such as GitHub OAuth, LinkedIn API access, and Dashboard Embeds.)*
@@ -110,9 +106,9 @@ It is also fully compatible with Vercel.
 
 ## 🛠️ Tech Stack
 
-- **Framework:** Next.js 15 (App Router, TypeScript)
-- **UI:** Material UI 6 + Framer Motion
-- **Database:** Prisma + SQLite (dev) / PostgreSQL (prod)
+- **Framework:** Next.js 16 (App Router, TypeScript)
+- **UI:** Material UI 7 + Framer Motion
+- **Database:** Prisma + PostgreSQL (optional)
 - **Charts:** Recharts
 - **Blog:** Markdown + `react-markdown` + `remark-gfm`
 - **Auth-ready:** NextAuth.js
@@ -123,3 +119,37 @@ It is also fully compatible with Vercel.
 ## 📄 License
 
 MIT
+
+## GitHub synchronization
+
+Projects and profile data use the same GitHub snapshot, refreshed hourly on demand.
+All public, non-fork repositories whose names do not start with `.` appear automatically;
+a `portfolio` topic or a source-code allowlist is no longer required. Existing custom
+descriptions, skills, favorites, and ordering are retained for recognized repositories.
+
+- Set `GITHUB_USERNAME` to the account to display (defaults to `mrkarthik14`).
+- Optionally set `GITHUB_ACCESS_TOKEN` for higher GitHub API rate limits.
+  `GITHUB_TOKEN` is supported as a legacy alias; `GITHUB_ACCESS_TOKEN` takes precedence.
+  These values belong in your deployment's secret environment settings.
+- `POST /api/github/sync` fetches current GitHub data and immediately expires the
+  shared projects/profile cache. It works without a database and reports
+  `persisted: false` in that case. Failed GitHub requests return a non-success status.
+- For persistent analytics/sync history, configure a **PostgreSQL** `DATABASE_URL`
+  and run `npx prisma db push` against your intended development database first.
+  The current Prisma schema supports PostgreSQL, not SQLite.
+  Sync writes projects, profile stats, and its success log in one transaction;
+  deleted/private repositories are removed from the stored portfolio.
+- For webhooks, configure `GITHUB_WEBHOOK_SECRET` on both GitHub and the app,
+  with payload URL `https://YOUR-SITE/api/github/webhook`, content type JSON,
+  and push/repository/create/delete/public events as needed. Missing or invalid
+  signatures are rejected. Repository events must belong to `GITHUB_USERNAME`.
+  An account/organization webhook is needed to receive events across repositories;
+  a webhook on one repository only covers that repository.
+- The existing Vercel schedule calls `/api/cron` every six hours. On other hosts,
+  configure a scheduler separately. Set `CRON_SECRET` and send it as a Bearer token
+  when invoking cron manually. GitHub data also refreshes on demand without cron.
+
+Run `npm run test:github` for isolated regression tests, and `npm run build` to
+validate the production build. For development in the Codex cloud environment's
+HTTPS proxy, use Node 24 and `NODE_USE_ENV_PROXY=1 npm run dev`; ordinary Node
+fetch requests otherwise attempt direct connections. Keep TLS verification enabled.

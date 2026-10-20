@@ -3,7 +3,7 @@
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import {
-    Box, Container, Typography, Button, Stack, Avatar, useTheme,
+    Box, Container, Typography, Button, Stack, useTheme,
 } from '@mui/material';
 import GitHubIcon from '@mui/icons-material/GitHub';
 import LinkedInIcon from '@mui/icons-material/LinkedIn';
@@ -27,8 +27,11 @@ export default function HeroSection() {
 
     useEffect(() => {
         fetch('/api/profile')
-            .then((r) => r.json())
-            .then((data) => setProfile(data))
+            .then((r) => {
+                if (!r.ok) throw new Error('Failed to load profile');
+                return r.json();
+            })
+            .then((data) => setProfile({ ...data.github, linkedinUrl: data.linkedin.profileUrl }))
             .catch(() => { });
     }, []);
 
@@ -167,7 +170,7 @@ export default function HeroSection() {
                     >
                         <Box sx={{ width: 300, height: 450, position: 'relative', top: '-40px' }}>
                             <ProfileCard
-                                name="Charan Karthik"
+                                name={name}
                                 title="Data Analyst & Data Scientist"
                                 handle="mrkarthik14"
                                 avatarUrl={avatar}

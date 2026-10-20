@@ -9,33 +9,16 @@ import SearchIcon from '@mui/icons-material/Search';
 import ProjectCard from '@/components/projects/ProjectCard';
 import AnimatedSection from '@/components/ui/AnimatedSection';
 import { ProjectData } from '@/types';
+import { getProjectCategories, matchesProjectCategory } from '@/lib/project-categories';
 
 // Category priority order for sorting projects
 const CATEGORY_ORDER = [
     'ml',           // Machine Learning
     'analytics',    // Analytics
     'dashboards',   // Dashboards
+    'data-engineering',
     'other',        // Everything else
 ];
-
-const PYTHON_SKILLS = ['Python', 'Pandas', 'NumPy', 'Matplotlib', 'Seaborn', 'Streamlit', 'Scikit-learn', 'Plotly'];
-const ML_SKILLS = ['Machine Learning', 'AI/ML', 'Deep Learning', 'GenAI', 'LLM'];
-
-function getProjectCategory(project: ProjectData): string {
-    const skills = project.skills || [];
-    const name = project.name.toLowerCase();
-
-    // Dashboards category
-    if (skills.includes('Power BI') || skills.includes('Streamlit') || name.includes('dashboard')) return 'dashboards';
-
-    // Machine Learning category
-    if (skills.some(s => ML_SKILLS.includes(s)) || skills.includes('Scikit-learn') || skills.includes('Generative AI')) return 'ml';
-
-    // Analytics category
-    if (skills.includes('Data Analytics') || skills.includes('Pandas') || skills.includes('A/B Testing') || skills.includes('EDA')) return 'analytics';
-
-    return 'other';
-}
 
 function sortProjectsByCategory(projects: ProjectData[]): ProjectData[] {
     return [...projects].sort((a, b) => {
@@ -48,8 +31,8 @@ function sortProjectsByCategory(projects: ProjectData[]): ProjectData[] {
         }
 
         // 2. Secondary Sort: Fallback to category grouping if no explicit order is set
-        const catA = CATEGORY_ORDER.indexOf(getProjectCategory(a));
-        const catB = CATEGORY_ORDER.indexOf(getProjectCategory(b));
+        const catA = CATEGORY_ORDER.indexOf(getProjectCategories(a)[0] || 'other');
+        const catB = CATEGORY_ORDER.indexOf(getProjectCategories(b)[0] || 'other');
         return catA - catB;
     });
 }
@@ -64,17 +47,19 @@ export default function ProjectsPage() {
 
     // Skill-based category filters for the chips
     const FILTER_CATEGORIES: { key: string; label: string }[] = [
-        { key: 'ml', label: 'Machine Learning' },
+        { key: 'data-science', label: 'Data Science' },
+        { key: 'ml', label: 'Machine Learning & AI' },
         { key: 'analytics', label: 'Analytics' },
         { key: 'dashboards', label: 'Dashboards' },
+        { key: 'data-engineering', label: 'Data Engineering' },
     ];
 
     useEffect(() => {
         async function fetchProjects() {
             try {
                 const res = await fetch('/api/projects');
-                if (!res.ok) throw new Error('Failed to fetch projects');
                 const data = await res.json();
+                if (!res.ok) throw new Error(data.error || 'Failed to fetch projects');
                 setProjects(data);
             } catch (err) {
                 setError(err instanceof Error ? err.message : 'Failed to load projects');
@@ -89,14 +74,15 @@ export default function ProjectsPage() {
         const matchesSearch =
             !search ||
             project.name.toLowerCase().includes(search.toLowerCase()) ||
-            project.description?.toLowerCase().includes(search.toLowerCase());
+            project.description?.toLowerCase().includes(search.toLowerCase()) ||
+            [...(project.skills || []), ...project.topics].some(tag => tag.toLowerCase().includes(search.toLowerCase()));
 
         let matchesCategory = true;
         if (selectedCategory) {
             if (selectedCategory === 'favorites') {
                 matchesCategory = !!project.isFavorite;
             } else {
-                matchesCategory = getProjectCategory(project) === selectedCategory;
+                matchesCategory = matchesProjectCategory(project, selectedCategory);
             }
         }
 
@@ -194,7 +180,7 @@ export default function ProjectsPage() {
 
             {filteredProjects.length === 0 && !loading && (
                 <Typography color="text.secondary" textAlign="center" sx={{ py: 6 }}>
-                    No projects match your filters.
+                    {error ? 'Projects could not be loaded. Please try again later.' : 'No projects match your filters.'}
                 </Typography>
             )}
         </Container>

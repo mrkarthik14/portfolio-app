@@ -36,10 +36,10 @@ export default function QuickStats({
             .then((data) => {
                 if (data.totalStats) {
                     setStats({
-                        repos: data.totalStats.repos || initialRepos,
-                        stars: data.totalStats.stars || initialStars,
-                        posts: data.totalStats.posts || initialPosts,
-                        followers: data.totalStats.followers || initialFollowers,
+                        repos: data.totalStats.repos ?? initialRepos,
+                        stars: data.totalStats.stars ?? initialStars,
+                        posts: data.totalStats.posts ?? initialPosts,
+                        followers: data.totalStats.followers ?? initialFollowers,
                     });
                 }
             })

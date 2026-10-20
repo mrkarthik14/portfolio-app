@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
+import { syncGitHub } from '@/lib/github-sync';
 
 // Vercel Cron-compatible endpoint
 // Add to vercel.json: { "crons": [{ "path": "/api/cron", "schedule": "0 */6 * * *" }] }
@@ -10,13 +11,8 @@ export async function GET(request: NextRequest) {
             return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
         }
 
-        const baseUrl = process.env.NEXTAUTH_URL || 'http://localhost:3000';
-
-        // Sync GitHub
-        const githubSync = await fetch(`${baseUrl}/api/github/sync`, {
-            method: 'POST',
-        });
-        const githubResult = await githubSync.json();
+        const baseUrl = request.nextUrl.origin;
+        const githubResult = await syncGitHub();
 
         // Sync LinkedIn
         const linkedinSync = await fetch(`${baseUrl}/api/linkedin/sync`, {
@@ -25,11 +21,11 @@ export async function GET(request: NextRequest) {
         const linkedinResult = await linkedinSync.json();
 
         return NextResponse.json({
-            message: 'Cron sync completed',
+            message: linkedinSync.ok ? 'Cron sync completed' : 'GitHub synced; LinkedIn sync failed',
             github: githubResult,
             linkedin: linkedinResult,
             timestamp: new Date().toISOString(),
-        });
+        }, { status: linkedinSync.ok ? 200 : 502 });
     } catch (error: unknown) {
         const message = error instanceof Error ? error.message : 'Unknown error';
         return NextResponse.json({ error: message }, { status: 500 });

@@ -135,7 +135,7 @@ export default function AdminPage() {
                             Auto-Sync Schedule
                         </Typography>
                         <Typography variant="body2" color="text.secondary">
-                            Data is automatically synced every 6 hours via cron job.
+                            GitHub data refreshes hourly when viewed. On Vercel, the configured cron also syncs every 6 hours.
                             You can also set up a GitHub webhook for real-time updates
                             when repositories change.
                         </Typography>

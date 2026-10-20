@@ -1,62 +1,38 @@
 import { NextResponse } from 'next/server';
-import { fetchGitHubUser } from '@/lib/github';
+import { getGitHubSnapshot } from '@/lib/github-sync';
 import prisma from '@/lib/prisma';
 
 export const dynamic = 'force-dynamic';
 
 export async function GET() {
-    // Build-time bypass: Next.js evaluates this file statically first
-    if (!process.env.DATABASE_URL) {
-        return NextResponse.json({
-            github: {
-                name: 'Charan Karthik Nayakanti',
-                login: 'mrkarthik14',
-                followers: 6,
-                publicRepos: 27,
-                totalStars: 8,
-            },
-            linkedin: { connections: 500 }
-        });
-    }
-
     try {
-        const username = process.env.GITHUB_USERNAME || 'mrkarthik14';
-
-        let dbStats = null;
-        dbStats = await prisma.profileStats.findFirst({
-            where: { platform: 'github' },
-        });
-
-        // Also fetch fresh from GitHub (lightweight call)
-        let user;
-        try {
-            user = await fetchGitHubUser(username);
-        } catch {
-            // Fall back to DB
-        }
-
+        const { user, totalStars } = await getGitHubSnapshot();
+        // LinkedIn stats are independent of the live GitHub profile.
+        const linkedin = process.env.DATABASE_URL
+            ? await prisma.profileStats.findFirst({ where: { platform: 'linkedin' } }).catch(() => null)
+            : null;
         return NextResponse.json({
             github: {
-                name: user?.name || 'Charan Karthik Nayakanti',
-                login: user?.login || username,
-                avatarUrl: user?.avatar_url || `https://avatars.githubusercontent.com/u/150363006?v=4`,
-                bio: user?.bio || 'Data Scientist & Full-Stack Developer',
-                followers: Math.max(user?.followers || 0, dbStats?.followers || 6),
-                publicRepos: user?.public_repos || dbStats?.publicRepos || 27,
-                totalStars: dbStats?.totalStars || 8,
-                location: user?.location || null,
-                company: user?.company || null,
-                blog: user?.blog || null,
-                twitterUsername: user?.twitter_username || null,
-                profileUrl: `https://github.com/${username}`,
+                name: user.name ?? user.login,
+                login: user.login,
+                avatarUrl: user.avatar_url,
+                bio: user.bio,
+                followers: user.followers,
+                publicRepos: user.public_repos,
+                totalStars,
+                location: user.location,
+                company: user.company,
+                blog: user.blog,
+                twitterUsername: user.twitter_username,
+                profileUrl: `https://github.com/${user.login}`,
             },
             linkedin: {
-                connections: dbStats?.connections || 500, // Fallback if no linkedin stats yet
+                connections: linkedin?.connections ?? 500,
                 profileUrl: 'https://www.linkedin.com/in/charankarthiknayakanti/',
-            }
+            },
         });
     } catch (error: unknown) {
         const message = error instanceof Error ? error.message : 'Unknown error';
-        return NextResponse.json({ error: message }, { status: 500 });
+        return NextResponse.json({ error: message }, { status: 502 });
     }
 }

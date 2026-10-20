@@ -1,46 +1,14 @@
 import { NextResponse } from 'next/server';
 import { projectEnrichment } from '@/lib/project-enrichment';
-import { GitHubRepo } from '@/types';
+import { getGitHubSnapshot } from '@/lib/github-sync';
 
-// Revalidate every hour to prevent GitHub API rate limits
-export const revalidate = 3600;
-
-const allowedProjects = [
-    "Credit-Card-Fraud-Risk-Analysis",
-    "telco-churn-prediction-customer-churn-prediction",
-    "Optimizing-E-Commerce-Recommendations-Using-A-B-Testing",
-    "marketplace-insights-dashboard",
-    "ICC-T20-World-Cup-2022-Player-Performance-Analytics-Dashboard",
-    "Zomato-data",
-    "Power-BI-projects",
-    "TensorTonic-Solutions",
-    "faang-ml-journey",
-    "AI-Agents",
-    "retail-bigquery-analytics",
-    "Siri-Travels-Tirupati",
-    "retail-data-pipeline-adf-sqlserver-snowflake"
-];
+export const dynamic = 'force-dynamic';
 
 export async function GET() {
     try {
-        const res = await fetch('https://api.github.com/users/mrkarthik14/repos?per_page=100', {
-            headers: {
-                // If a token is provided in env, use it to increase rate limit
-                ...(process.env.GITHUB_TOKEN && { Authorization: `token ${process.env.GITHUB_TOKEN}` }),
-                Accept: 'application/vnd.github.v3+json',
-            },
-        });
+        const { repos: filteredRepos } = await getGitHubSnapshot();
 
-        if (!res.ok) {
-            throw new Error(`GitHub API returned ${res.status}`);
-        }
-
-        const rawRepos: GitHubRepo[] = await res.json();
-
-        // 1. Filter exactly by the allowed projects list
-        const filteredRepos = rawRepos.filter(p => allowedProjects.includes(p.name));
-
-        // 2. Map and enrich exactly matching the structure the frontend expects
+        // Keep curated descriptions and ordering alongside current GitHub data.
         const formatted = filteredRepos.map((repo) => {
             const enriched = projectEnrichment[repo.name];
             const githubTopics: string[] = repo.topics || [];
@@ -69,7 +37,7 @@ export async function GET() {
             };
         });
 
-        // 3. Sort primarily by the custom order defined in enrichment, then by stars
+        // Sort primarily by the custom order defined in enrichment, then by stars
         formatted.sort((a, b) => {
             const orderA = a.order ?? 99;
             const orderB = b.order ?? 99;
@@ -80,6 +48,6 @@ export async function GET() {
         return NextResponse.json(formatted);
     } catch (error: unknown) {
         const message = error instanceof Error ? error.message : 'Unknown error';
-        return NextResponse.json({ error: message }, { status: 500 });
+        return NextResponse.json({ error: message }, { status: 502 });
     }
 }

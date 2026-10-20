@@ -15,6 +15,51 @@ export const projectEnrichment: Record<string, {
         result: string;
     };
 }> = {
+    'SomnoVision': {
+        title: 'SomnoVision — Video-Based Sleep Apnea Screening',
+        description: 'Explores non-contact respiratory monitoring with OpenCV optical flow and SciPy signal processing. Includes a Streamlit interface for synthetic tests, recorded videos, and webcam input, with breathing waveforms and apnea-event analysis.',
+        skills: ['Python', 'Computer Vision', 'OpenCV', 'Signal Processing', 'SciPy', 'Streamlit'],
+        isFavorite: true,
+        order: 0.5,
+    },
+    'Defect-Detection-in-Hot-Rolling': {
+        title: 'Steel Coil Defect Detection',
+        description: 'Tata Steel AI Hackathon project for classifying hot-rolled steel coils from 49 process features. Explores imbalanced classification using SMOTE, XGBoost, LightGBM, Random Forest, and rank-based ensemble predictions.',
+        skills: ['Python', 'Machine Learning', 'XGBoost', 'LightGBM', 'Scikit-learn', 'SMOTE'],
+        isFavorite: true,
+        order: 0.6,
+    },
+    'END-2-END-ML-PROJECT-WITH-DEPLOYMENT': {
+        title: 'Forest Fire Prediction — End-to-End ML',
+        description: 'Predicts forest fire intensity from environmental and weather features in the Algerian Forest Fires dataset. Covers exploratory analysis, feature scaling, Ridge Regression, saved models, and a Flask prediction interface.',
+        skills: ['Python', 'Machine Learning', 'Scikit-learn', 'Pandas', 'Ridge Regression', 'Flask'],
+        isFavorite: true,
+        order: 0.7,
+    },
+    'Emerging-Repos-': {
+        title: 'Emerging Repos — AI Research Intelligence',
+        description: 'Collects and analyzes AI repository, research-paper, and model snapshots from GitHub, arXiv, and Hugging Face. Includes Python collectors, data validation, and exploratory notebooks for studying activity and emerging trends.',
+        skills: ['Python', 'Data Analytics', 'Data Engineering', 'Pandas', 'Hugging Face', 'Jupyter'],
+        order: 0.8,
+    },
+    'hackerrank-orchestrate-september26-buy-or-wait-agent': {
+        title: 'Buy-or-Wait — Financial Decision Agent',
+        description: 'HackerRank financial decision agent that combines transaction data, payment options, and supporting evidence to assess affordability. Includes cash-flow forecasting, payment planning, validation, and an LLM explanation component.',
+        skills: ['Python', 'AI Agents', 'LLM', 'Financial Analytics', 'Data Validation'],
+        order: 0.9,
+    },
+    'AI-Agents': {
+        title: 'AI Agents — Learning Workspace',
+        description: 'Python learning workspace for AI agent experiments, with a Jupyter notebook and starter application.',
+        skills: ['Python', 'AI Agents', 'Jupyter', 'Learning in Progress'],
+        order: 10.6,
+    },
+    'ML_Projects': {
+        title: 'ML Projects — Learning Workspace',
+        description: 'An initial workspace for an end-to-end machine learning project. The repository currently contains a README and Git configuration; implementation is not yet published.',
+        skills: ['Machine Learning', 'Learning in Progress'],
+        order: 10.5,
+    },
     'Siri-Travels-Tirupati': {
         title: 'Siri Travels Tirupati',
         description: 'Developed and deployed a complete, responsive business landing page for a local travel service brand to improve online visibility and generate direct inquiries.',

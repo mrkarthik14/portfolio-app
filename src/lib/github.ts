@@ -2,93 +2,71 @@ import { GitHubRepo } from '@/types';
 
 const GITHUB_API = 'https://api.github.com';
 
-export async function fetchGitHubRepos(username: string): Promise<GitHubRepo[]> {
-    const headers: HeadersInit = {
-        Accept: 'application/vnd.github.v3+json',
-    };
-
-    if (process.env.GITHUB_ACCESS_TOKEN) {
-        headers.Authorization = `Bearer ${process.env.GITHUB_ACCESS_TOKEN}`;
-    }
-
-    const repos: GitHubRepo[] = [];
-    let page = 1;
-    let hasMore = true;
-
-    while (hasMore) {
-        const response = await fetch(
-            `${GITHUB_API}/users/${username}/repos?per_page=100&page=${page}&sort=updated&type=owner`,
-            { headers, next: { revalidate: 0 } }
-        );
-
-        if (!response.ok) {
-            throw new Error(`GitHub API error: ${response.status} ${response.statusText}`);
-        }
-
-        const data: GitHubRepo[] = await response.json();
-        repos.push(...data);
-        hasMore = data.length === 100;
-        page++;
-    }
-
-    return repos;
+export interface GitHubUser {
+    login: string;
+    name: string | null;
+    avatar_url: string;
+    bio: string | null;
+    followers: number;
+    public_repos: number;
+    location: string | null;
+    company: string | null;
+    blog: string | null;
+    twitter_username: string | null;
 }
 
-export async function fetchGitHubUser(username: string) {
-    const headers: HeadersInit = {
-        Accept: 'application/vnd.github.v3+json',
-    };
+export function getGitHubUsername() {
+    return process.env.GITHUB_USERNAME?.trim() || 'mrkarthik14';
+}
 
-    if (process.env.GITHUB_ACCESS_TOKEN) {
-        headers.Authorization = `Bearer ${process.env.GITHUB_ACCESS_TOKEN}`;
-    }
-
-    const response = await fetch(`${GITHUB_API}/users/${username}`, {
-        headers,
-        next: { revalidate: 3600 },
+async function githubRequest<T>(path: string): Promise<T> {
+    const token = process.env.GITHUB_ACCESS_TOKEN || process.env.GITHUB_TOKEN;
+    const response = await fetch(`${GITHUB_API}${path}`, {
+        headers: {
+            Accept: 'application/vnd.github+json',
+            'X-GitHub-Api-Version': '2022-11-28',
+            ...(token ? { Authorization: `Bearer ${token}` } : {}),
+        },
+        cache: 'no-store',
+        signal: AbortSignal.timeout(15000),
     });
 
     if (!response.ok) {
-        throw new Error(`GitHub API error: ${response.status}`);
+        const limited = response.status === 429 ||
+            (response.status === 403 && response.headers.get('x-ratelimit-remaining') === '0');
+        throw new Error(limited
+            ? 'GitHub API rate limit reached. Configure GITHUB_ACCESS_TOKEN or retry after the rate limit resets.'
+            : `GitHub API request failed (${response.status}). Check the configured username and token permissions.`);
     }
-
     return response.json();
+}
+
+export async function fetchGitHubRepos(username: string): Promise<GitHubRepo[]> {
+    const repos: GitHubRepo[] = [];
+    for (let page = 1; ; page++) {
+        const data = await githubRequest<GitHubRepo[]>(
+            `/users/${encodeURIComponent(username)}/repos?per_page=100&page=${page}&sort=updated&type=owner`
+        );
+        repos.push(...data);
+        if (data.length < 100) return repos;
+    }
+}
+
+export async function fetchGitHubUser(username: string): Promise<GitHubUser> {
+    return githubRequest<GitHubUser>(`/users/${encodeURIComponent(username)}`);
 }
 
 export async function fetchGitHubContributions(username: string) {
-    // GitHub doesn't expose contributions via REST API easily
-    // We'll use the events API as a proxy
-    const headers: HeadersInit = {
-        Accept: 'application/vnd.github.v3+json',
-    };
-
-    if (process.env.GITHUB_ACCESS_TOKEN) {
-        headers.Authorization = `Bearer ${process.env.GITHUB_ACCESS_TOKEN}`;
-    }
-
-    const response = await fetch(
-        `${GITHUB_API}/users/${username}/events?per_page=100`,
-        { headers, next: { revalidate: 3600 } }
-    );
-
-    if (!response.ok) {
-        return [];
-    }
-
-    return response.json();
+    return githubRequest<unknown[]>(`/users/${encodeURIComponent(username)}/events?per_page=100`);
 }
 
+// Public original repositories appear automatically, including new and renamed repos.
+// Never let the previous top-20 fallback expose private repositories or forks.
 export function filterPortfolioRepos(repos: GitHubRepo[]): GitHubRepo[] {
-    return repos.filter(
-        (repo) =>
-            !repo.name.startsWith('.') &&
-            !repo.fork &&
-            !repo.private &&
-            repo.topics?.includes('portfolio')
-    );
+    return repos.filter(repo => !repo.name.startsWith('.') && !repo.fork && !repo.private);
 }
 
-export function getLanguageDistribution(repos: GitHubRepo[]): { name: string; value: number; color: string }[] {
+export function getLanguageDistribution(repos: Pick<GitHubRepo, 'language'>[]): { name: string; value: number; color: string }[] {
     const langColors: Record<string, string> = {
         TypeScript: '#3178C6',
         JavaScript: '#F7DF1E',
